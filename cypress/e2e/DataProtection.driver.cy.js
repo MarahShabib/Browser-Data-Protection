@@ -1,5 +1,5 @@
-import { actions } from './actions.cy.js'
-import { assertions } from './assertions.cy';
+import { actions } from './DataProtection.actions.cy.js'
+import { assertions } from './DataProtection.assertions.cy.js';
 
 
 const Url = 'https://marah-testing.cc.test.catonet.works/?#/account/186361/browserDataProtection'

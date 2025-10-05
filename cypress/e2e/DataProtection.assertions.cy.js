@@ -1,5 +1,5 @@
-import { actions } from './actions.cy';
-import { selectors } from './Driver.cy';
+import { actions } from './DataProtection.actions.cy';
+import { selectors } from './DataProtection.driver.cy';
 
 
 export class assertions {

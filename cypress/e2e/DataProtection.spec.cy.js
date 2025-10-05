@@ -1,4 +1,4 @@
-const { loginAndNavigateToBrowserDataProtection , verifyUI } = require('./Driver.cy')
+const { loginAndNavigateToBrowserDataProtection , verifyUI } = require('./DataProtection.driver.cy')
 
 
 
