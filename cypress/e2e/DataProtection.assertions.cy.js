@@ -23,8 +23,6 @@ export class assertions {
 
     });
 
-
-
   }
 
   static verifyTableMockData() {
@@ -66,7 +64,7 @@ export class assertions {
     .and('contain.text', 'Type')
     .and('contain.text', 'Upload');
 });
-  //third element why 4?
+  //third element why 4??
   actions.getElement(selectors.UI.tableRow).eq(4).within(() => {
   actions.getElement(selectors.MockData.thirdRule, { containsText: true }).should('exist');
   actions.getElement(selectors.MockData.thirdDescription, { containsText: true }).should('exist');
@@ -93,7 +91,47 @@ export class assertions {
     .should('contain.text', 'Watermark');
 });
 
-  
+  }
+
+
+
+  static verifyNewFormContainsExpectedContent() {
+    
+     actions.getElement(selectors.UI.newButton).should('be.visible').click()
+
+     actions.getElement('New Rule', { containsText: true, tag: selectors.NewFormUI.modalHeaderH3 }).should('exist');
+     actions.getElement(selectors.NewFormUI.modalCloseButton)
+    .should('exist')
+    .within(() => {
+      actions.getElement(selectors.NewFormUI.modalCloseIcon).should('exist')
+    })
+    actions.getElement('Expand All', { containsText: true, tag: selectors.NewFormUI.expandAllTextTag }).should('exist');
+
+
+   selectors.NewFormUI.newRuleSections.forEach((section) => {
+   actions.getElement(section, { containsText: true, tag: 'div' }).should('exist');
+  })
+
+     actions.getElement(selectors.NewFormUI.nameInput)
+    .should('exist')
+    .and('have.attr', 'type', 'text')
+     actions.getElement(selectors.NewFormUI.enabledToggle)
+    .should('exist')
+    .and('be.checked')
+     actions.getElement(selectors.NewFormUI.enabledLabelText, { containsText: true, tag: 'span' }).should('exist');
+     actions.getElement(selectors.NewFormUI.descriptionInput)
+    .should('exist')
+    .and('have.attr', 'type', 'text')
+     actions.getElement(selectors.NewFormUI.positionSelectedText).should('exist')
+     actions.getElement(selectors.NewFormUI.positionSelectValue).should('contain.text', 'Last')
+
+     actions.getElement(selectors.NewFormUI.cancelButton)
+    .should('exist')
+    .and('contain.text', 'Cancel')
+     actions.getElement(selectors.NewFormUI.saveButton)
+    .should('exist')
+    .and('contain.text', 'Save')
+    .and('be.disabled')
 
   }
 }

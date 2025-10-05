@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '020251'
+  mfa: '180363'
 }
 export const selectors = {
   login: {
@@ -39,6 +39,30 @@ export const selectors = {
     menuButton: '[data-testid="actionscell-menu-button"]'
 
   },
+  NewFormUI: {
+
+    modalHeaderH3: 'h3',
+    modalCloseButton: 'button[aria-label="Close"]',
+    modalCloseIcon: 'svg[data-icon-name="Close"]',
+    expandAllTextTag: 'p',
+    newRuleSections: [
+      'General',
+      'Users/Groups',
+      'Activity',
+    ] ,
+    saveButton: '[data-testid="catobutton-save"]',
+    cancelButton: '[data-testid="catobutton-cancel"]',
+    nameInput: '#name',
+    descriptionInput: '#description',
+    positionLabel: 'div',
+    positionItem: 'li',
+    positionSelectedText: '[data-testid="select-position.position"]',
+    positionSelectValue: '[id^="mui-component-select-position.position"]',
+    enabledToggle: 'input[name="enabled"][type="checkbox"]',
+    enabledLabelText: 'Enabled',
+
+
+  },
   MockData: {
     firstRule: 'rule1',
     firstDescription: 'All Allowed',
@@ -60,7 +84,13 @@ function verifyUI() {
       assertions.verifyTableMockData();
   }
 
+function verifyNewFormUI() {
+      assertions.verifyNewFormContainsExpectedContent();
+  }
+
+
 module.exports = {
   loginAndNavigateToBrowserDataProtection,
-  verifyUI
+  verifyUI,
+  verifyNewFormUI
 }
