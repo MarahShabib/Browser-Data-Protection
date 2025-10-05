@@ -18,7 +18,7 @@ export class assertions {
     actions.getElement(selectors.UI.table).should('exist');
     selectors.UI.tableHeaders.forEach(headerText => {
       actions.getElement(selectors.UI.table).within(() => {
-        cy.contains('th, td', headerText).should('exist');
+        actions.getElement(headerText, { containsText: true, tag: 'th, td' }).should('exist');
       });
 
     });

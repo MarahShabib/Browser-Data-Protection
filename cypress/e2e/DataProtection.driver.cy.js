@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '180363'
+  mfa: '745298'
 }
 export const selectors = {
   login: {
