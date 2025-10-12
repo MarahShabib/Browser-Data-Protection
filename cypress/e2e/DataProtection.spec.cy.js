@@ -8,13 +8,13 @@ describe('Browser Data Protection Tests', () => {
     loginAndNavigateToBrowserDataProtection()
   })
 
-  // it('Browser Data Protection UI is rendered correctly', () => {
-  //   verifymainPageUI();
-  // });
+  it('Browser Data Protection UI is rendered correctly', () => {
+    verifymainPageUI();
+  });
 
-  // it('New Rule Form UI is rendered correctly', () => {
-  //   verifyNewFormUI();
-  // });
+  it('New Rule Form UI is rendered correctly', () => {
+    verifyNewFormUI();
+  }); 
 
   it('Create New Rule', () => {
    createRule(exampleRule);
