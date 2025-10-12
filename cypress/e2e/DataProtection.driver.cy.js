@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '910187'
+  mfa: '558107'
 }
 export const selectors = {
   // login
@@ -60,6 +60,10 @@ export const selectors = {
     tbodyRow: 'tbody [role="row"]',
     roleCell: '[role="cell"]',
     deleteButton: 'button[aria-label="Delete"]',
+    userMenu: 'button[aria-label="Open"]',
+    userlist: 'ul[role="listbox"] li',
+    userSearch: 'input[placeholder="Search or select User Group"]',
+    userSelect: '[role="presentation"]',
   dialog: "[role='dialog']",
   usergroupSection: '[data-testid="browser-extension-sec-users-groups"]',
   activitySection: '[data-testid="browser-extension-sec-users-actions"]',
@@ -398,22 +402,21 @@ function publishRule() {
 
 function selectUserGroupType(type,name) {
   UIActions.clickOnElement(selectors.usergroupSection);
-  // Click the dropdown button (arrow icon) to open the menu
-  cy.get('button[aria-label="Open"]').should('be.visible').click();
 
-  // Wait for the options list to appear and click the desired option
-  cy.get('ul[role="listbox"] li')
+     UIActions.clickOnElement(selectors.userMenu);
+
+ UIActions.getElement(selectors.userlist)
     .contains(type)
     .should('be.visible')
     .click();
 
-   cy.get('input[placeholder="Search or select User Group"]')
+    UIActions.getElement(selectors.userSearch)
   .should('be.visible')
   .clear()
   .type(name, { delay: 100 });
 
 
-  cy.get('[role="presentation"]')
+   UIActions.getElement(selectors.userSelect)
   .should('be.visible')
   .contains(name)
   .click();
@@ -424,8 +427,8 @@ function selectUserGroupType(type,name) {
           .first()
           .within(() => {
             
-            UIActions.getElement(selectors.roleCell).eq(1).should('contain', name); // Name
-            UIActions.getElement(selectors.roleCell).eq(2).should('contain', type); // Type
+            UIActions.getElement(selectors.roleCell).eq(1).should('contain', name); 
+            UIActions.getElement(selectors.roleCell).eq(2).should('contain', type); 
           });
         });
 
