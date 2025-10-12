@@ -2,68 +2,64 @@ import { UIActions } from './UIActions';
 import { Assertions } from './Assertions';
 
 
-// Ignore known app error thrown during navigation: Cannot read properties of null (reading 'postMessage')
-Cypress.on('uncaught:exception', (err) => {
-  if (err && err.message && err.message.includes('postMessage')) {
-    return false;
-  }
-});
-
-
 const Url = 'https://marah-testing.cc.test.catonet.works/?#/account/186361/browserDataProtection'
 const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '994597'
+  mfa: '910187'
 }
 export const selectors = {
   // login
-  username: '#username',
-  password: '#password',
-  submit: '.btn-submit',
+    username: '#username',
+    password: '#password',
+    submit: '.btn-submit',
   mfa: '#mfaCode',
   // UI (main page)
-  pageTitle: 'p.MuiV5-Typography-body1',
-  breadcrumbLink: 'a[href="#/account/186361/browserDataProtection"]',
-  publishedIcon: 'svg[data-icon-name="GreenRoundCheck"]',
-  publishedText: 'span.MuiV5-Chip-label',
-  searchInput: 'input[placeholder="Search"]',
-  searchIcon: 'svg[data-icon-name="Search2"]',
-  toggleSwitch: 'input[type="checkbox"][aria-label="controlled"]',
-  toggleLabel: 'span.MuiV5-FormControlLabel-label',
-  exportButton: 'button[data-testid="catobutton-export"]',
-  newButton: 'button[data-testid="catobutton-new"]',
-  table: 'table[data-testid="awesometable-table-browser.protection.policy"]',
-  tableRow: 'table[data-testid="awesometable-table-browser.protection.policy"] tbody tr',
+    pageTitle: 'p.MuiV5-Typography-body1',
+    breadcrumbLink: 'a[href="#/account/186361/browserDataProtection"]',
+    publishedIcon: 'svg[data-icon-name="GreenRoundCheck"]',
+    publishedText: 'span.MuiV5-Chip-label',
+    searchInput: 'input[placeholder="Search"]',
+    searchIcon: 'svg[data-icon-name="Search2"]',
+    toggleSwitch: 'input[type="checkbox"][aria-label="controlled"]',
+    toggleLabel: 'span.MuiV5-FormControlLabel-label',
+    exportButton: 'button[data-testid="catobutton-export"]',
+    newButton: 'button[data-testid="catobutton-new"]',
+    table: 'table[data-testid="awesometable-table-browser.protection.policy"]',
+    tableRow: 'table[data-testid="awesometable-table-browser.protection.policy"] tbody tr',
   tableHeaders: ['#', 'Name', 'Description', 'Users/Groups', 'Action'],
-  editButton:'button[aria-label="Edit"]',
-  allowIcon: '[data-icon-name="Allow"]',
-  blockIcon: '[data-icon-name="Block"]',
-  overlaysIcon: '[data-icon-name="Overlays"]',
+    editButton:'button[aria-label="Edit"]',
+    allowIcon: '[data-icon-name="Allow"]',
+    blockIcon: '[data-icon-name="Block"]',
+    overlaysIcon: '[data-icon-name="Overlays"]',
   menuButton: '[data-testid="actionscell-menu-button"]',
   // New Form (modal)
-  modalHeaderH3: 'h3',
-  modalCloseButton: 'button[aria-label="Close"]',
-  modalCloseIcon: 'svg[data-icon-name="Close"]',
-  expandAllTextTag: 'p',
+    modalHeaderH3: 'h3',
+    modalCloseButton: 'button[aria-label="Close"]',
+    modalCloseIcon: 'svg[data-icon-name="Close"]',
+    expandAllTextTag: 'p',
   newRuleSections: ['General', 'Users/Groups', 'Activity'],
-  saveButton: '[data-testid="catobutton-save"]',
-  cancelButton: '[data-testid="catobutton-cancel"]',
-  nameInput: '#name',
-  descriptionInput: '#description',
-  positionLabel: 'div',
-  positionItem: 'li',
-  positionSelectedText: '[data-testid="select-position.position"]',
-  positionSelectValue: '[id^="mui-component-select-position.position"]',
-  enabledToggle: 'input[name="enabled"][type="checkbox"]',
-  enabledLabelText: 'Enabled',
-  usersGroupsTable: '[data-testid="awesometable-table-source"]',
-  roleRow: '[role="row"]',
-  roleColumnHeader: '[role="columnheader"]',
-  tbodyRow: 'tbody [role="row"]',
-  roleCell: '[role="cell"]',
-  deleteButton: 'button[aria-label="Delete"]',
+    saveButton: '[data-testid="catobutton-save"]',
+    cancelButton: '[data-testid="catobutton-cancel"]',
+    nameInput: '#name',
+    descriptionInput: '#description',
+    positionLabel: 'div',
+    positionItem: 'li',
+    positionSelectedText: '[data-testid="select-position.position"]',
+    positionSelectValue: '[id^="mui-component-select-position.position"]',
+    lastPosition: '[data-value="LAST_IN_POLICY"]',
+    firstPosition: '[data-value="FIRST_IN_POLICY"]',
+    beforeRule: '[data-value="BEFORE_RULE"]',
+    afterRule: '[data-value="AFTER_RULE"]',
+    enabledToggle: 'input[name="enabled"][type="checkbox"]',
+    enabledLabelText: 'Enabled',
+    usersGroupsTable: '[data-testid="awesometable-table-source"]',
+    roleRow: '[role="row"]',
+    roleColumnHeader: '[role="columnheader"]',
+    tbodyRow: 'tbody [role="row"]',
+    roleCell: '[role="cell"]',
+    deleteButton: 'button[aria-label="Delete"]',
   dialog: "[role='dialog']",
   usergroupSection: '[data-testid="browser-extension-sec-users-groups"]',
   activitySection: '[data-testid="browser-extension-sec-users-actions"]',
@@ -84,13 +80,47 @@ export const selectors = {
 };
 
 const mockData = {
-  firstRule: 'rule1',
-  firstDescription: 'All Allowed',
-  secondRule: 'rule2',
-  secondDescription: 'All Blocked',
-  thirdRule: 'rule3',
-  thirdDescription: 'Allowed , Blocked , Overlays',
+    firstRule: 'rule1',
+    firstDescription: 'All Allowed',
+    secondRule: 'rule2',
+    secondDescription: 'All Blocked',
+    thirdRule: 'rule3',
+    thirdDescription: 'Allowed , Blocked , Overlays',
   groups: 'GROUP1'
+};
+
+
+export const ruleTemplate = {
+  name: '',
+  position: 'Last', 
+  description: '',
+  userGroupType: 'User Group', 
+  userGroupName: '',
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+
+const exampleRule = {
+  name: 'Ruletest5',
+  position: 'Last',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Allowed',
+    Print: 'Blocked',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Blocked'
+  }
 };
 
 function loginAndNavigateToBrowserDataProtection() {
@@ -209,7 +239,7 @@ function verifyMockDataTableRows() {
           .parent()
           .should('contain.text', 'Watermark');
       });
-}
+  }
 
 function verifyNewFormUI() {
 
@@ -226,7 +256,7 @@ function verifyNewFormUI() {
       selectors.newRuleSections.forEach(section => {
         Assertions.elementContainsText('div', section);
       });
-      
+
       verifyGeneralSection();
 
       verifyUserGroupSection();
@@ -297,8 +327,176 @@ function verifyActivitySection() {
   }
 
 
+
+  function createRule(rule = {}) {
+  const { name, position, description, userGroupType, userGroupName, activities } = rule;
+
+     Assertions.elementIsVisible(selectors.newButton);
+      UIActions.clickOnElement(selectors.newButton);
+
+      UIActions.typeInElement(selectors.nameInput, name);
+
+
+  if (description) {
+     UIActions.typeInElement(selectors.descriptionInput, description);
+  }
+  if (position) {
+    UIActions.clickOnElement(selectors.positionSelectValue);
+     if (position == 'Last') {
+      UIActions.clickOnElement(selectors.lastPosition);
+     }
+      if (position == 'First') {
+      UIActions.clickOnElement(selectors.firstPosition);
+     }
+      if (position == 'Before Rule') {
+      UIActions.clickOnElement(selectors.beforeRule);
+     }
+      if (position == 'After Rule') {
+      UIActions.clickOnElement(selectors.afterRule);
+     }
+  }
+
+  
+  if (userGroupType || userGroupName) {
+
+      selectUserGroupType(userGroupType,userGroupName)
+  }
+
+  if (activities && typeof activities === 'object') {
+     selectActivity(activities)
+  
+  }
+
+  UIActions.getElement(selectors.saveButton).should('be.visible').click();
+
+  cy.wait(3000);
+  const effectivePosition = position || 'Last';
+  verifyRulePosition(effectivePosition, name);
+}
+
+function verifyRulePosition(position, name) {
+  if (position == 'Last') {
+   UIActions.getElement(selectors.tableRow).last()
+      .find('td')
+      .eq(2)
+      .should('contain.text', name);
+  } else if (position == 'First') {
+  UIActions.getElement(selectors.tableRow).first()
+      .find('td')
+      .eq(2)
+      .should('contain.text', name);
+  }
+}
+
+function publishRule() {
+  cy.contains('button', 'Publish').first().should('be.visible').click()
+  cy.contains('button', 'Publish to Cato').first().should('be.visible').click()
+}
+
+
+
+
+function selectUserGroupType(type,name) {
+  UIActions.clickOnElement(selectors.usergroupSection);
+  // Click the dropdown button (arrow icon) to open the menu
+  cy.get('button[aria-label="Open"]').should('be.visible').click();
+
+  // Wait for the options list to appear and click the desired option
+  cy.get('ul[role="listbox"] li')
+    .contains(type)
+    .should('be.visible')
+    .click();
+
+   cy.get('input[placeholder="Search or select User Group"]')
+  .should('be.visible')
+  .clear()
+  .type(name, { delay: 100 });
+
+
+  cy.get('[role="presentation"]')
+  .should('be.visible')
+  .contains(name)
+  .click();
+
+
+    UIActions.getElement(selectors.usersGroupsTable).within(() => {
+      UIActions.getElement(selectors.tbodyRow)
+          .first()
+          .within(() => {
+            
+            UIActions.getElement(selectors.roleCell).eq(1).should('contain', name); // Name
+            UIActions.getElement(selectors.roleCell).eq(2).should('contain', type); // Type
+          });
+        });
+
+    
+
+}
+
+function selectActivity(activities) {
+
+      UIActions.clickOnElement(selectors.activitySection);
+    UIActions.clickOnElement(selectors.activitySection);
+    Object.entries(activities).forEach(([label, state]) => {
+      setActivityState(label, state);
+    });
+
+}
+
+
+function getActivitySelectorsByLabel(labelText) {
+  const map = {
+    Copy: { toggle: selectors.copyToggle, switch: selectors.copySwitch },
+    Paste: { toggle: selectors.pasteToggle, switch: selectors.pasteSwitch },
+    Print: { toggle: selectors.printToggle, switch: selectors.printSwitch },
+    Type: { toggle: selectors.typeToggle, switch: selectors.typeSwitch },
+    Upload: { toggle: selectors.uploadToggle, switch: selectors.uploadSwitch },
+    Download: { toggle: selectors.downloadToggle, switch: selectors.downloadSwitch }
+  };
+  return map[labelText];
+}
+
+function setActivityState(labelText, state) {
+  const activitySelectors = getActivitySelectorsByLabel(labelText);
+  if (!activitySelectors) {
+    throw new Error(`Unknown activity label: ${labelText}`);
+  }
+  const { toggle, switch: switchSel } = activitySelectors;
+
+  UIActions.getElement(selectors.activitySection).within(() => {
+
+    cy.contains(selectors.fieldLabelRoot, labelText).should('exist');
+    if (state === 'Blocked') {
+    UIActions.getElement(toggle).then(($input) => {
+      if ($input.is(':checked')) {
+        cy.get(switchSel).click();
+        cy.get(switchSel)
+          .closest('label')
+          .should('contain.text', 'Blocked');
+      } 
+    });
+  }
+  if (state === 'Allowed') {
+    UIActions.getElement(toggle).then(($input) => {
+      if (!$input.is(':checked')) {
+        cy.get(switchSel).click();
+        cy.get(switchSel)
+          .closest('label')
+          .should('contain.text', 'Blocked');
+      } 
+    });
+  }
+
+  });
+}
+
+
+
+
 module.exports = {
   loginAndNavigateToBrowserDataProtection,
    verifymainPageUI,
-  verifyNewFormUI
+  verifyNewFormUI,
+  exampleRule,
+  createRule,
 }
