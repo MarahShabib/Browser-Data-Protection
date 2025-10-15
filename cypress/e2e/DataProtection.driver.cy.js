@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '558107'
+  mfa: '946226'
 }
 export const selectors = {
   // login
@@ -33,7 +33,7 @@ export const selectors = {
     allowIcon: '[data-icon-name="Allow"]',
     blockIcon: '[data-icon-name="Block"]',
     overlaysIcon: '[data-icon-name="Overlays"]',
-  menuButton: '[data-testid="actionscell-menu-button"]',
+    menuButton: '[data-testid="actionscell-menu-button"]',
   // New Form (modal)
     modalHeaderH3: 'h3',
     modalCloseButton: 'button[aria-label="Close"]',
@@ -93,6 +93,14 @@ const mockData = {
   groups: 'GROUP1'
 };
 
+export const msgs = {
+
+  CREATE_SUCCESS: "Changes were applied to your unpublished revision. This revision is available for editing until it’s published or discarded.",
+  UNPUBLISHED_SUCCESS_PREFIX: 'Changes were applied to your unpublished revision',
+  PUBLISH_SUCCESS: 'Changes published successfully'
+}
+
+
 
 export const ruleTemplate = {
   name: '',
@@ -112,7 +120,7 @@ export const ruleTemplate = {
 
 
 const exampleRule = {
-  name: 'Ruletest5',
+  name: 'Ruletest6',
   position: 'Last',
   description: 'Created by automation',
   userGroupType: 'User Group',
@@ -177,73 +185,76 @@ function  verifymainPageUI() {
   }
 
 function verifyMockDataTableRows() {
-      // First row validations
-      UIActions.getElement(selectors.tableRow).first().within(() => {
-        Assertions.elementContainsText('*', mockData.firstRule);
-        Assertions.elementContainsText('*', mockData.firstDescription);
-        Assertions.elementContainsText('*', mockData.groups);
-        Assertions.elementExists(selectors.allowIcon);
-        Assertions.elementExists(selectors.blockIcon);
-        Assertions.elementExists(selectors.overlaysIcon);
-        Assertions.elementExists(selectors.menuButton);
+  const rowData = [
+    {
+      index: 0,
+      rule: mockData.firstRule,
+      description: mockData.firstDescription,
+      expectedAllow: ['Download', 'Copy', 'Paste', 'Print', 'Type', 'Upload']
+    },
+    {
+      index: 2,
+      rule: mockData.secondRule,
+      description: mockData.secondDescription,
+      expectedBlock: ['Download', 'Copy', 'Paste', 'Print', 'Type', 'Upload']
+    },
+    {
+      index: 4,
+      rule: mockData.thirdRule,
+      description: mockData.thirdDescription,
+      expectedAllow: ['Copy', 'Print', 'Upload'],
+      expectedBlock: ['Download', 'Paste', 'Type'],
+      expectedOverlays: ['Watermark']
+    }
+  ];
 
+  rowData.forEach(row => {
+    UIActions.getElement(selectors.tableRow).eq(row.index).within(() => {
+
+      Assertions.elementContainsText('*', row.rule);
+      Assertions.elementContainsText('*', row.description);
+      Assertions.elementContainsText('*', mockData.groups);
+
+      Assertions.elementExists(selectors.allowIcon);
+      Assertions.elementExists(selectors.blockIcon);
+      Assertions.elementExists(selectors.overlaysIcon);
+      Assertions.elementExists(selectors.menuButton);
+
+      if (row.expectedAllow) {
         UIActions.getElement(selectors.allowIcon)
           .parent()
-          .should('contain.text', 'Download')
-          .and('contain.text', 'Copy')
-          .and('contain.text', 'Paste')
-          .and('contain.text', 'Print')
-          .and('contain.text', 'Type')
-          .and('contain.text', 'Upload');
-      });
+          .should($el => {
+            row.expectedAllow?.forEach(text => {
+              expect($el.text()).to.contain(text);
+            });
+          });
+      }
 
-      // Second row (index 2) validations
-      UIActions.getElement(selectors.tableRow).eq(2).within(() => {
-        Assertions.elementContainsText('*', mockData.secondRule);
-        Assertions.elementContainsText('*', mockData.secondDescription);
-        Assertions.elementContainsText('*', mockData.groups);
-        Assertions.elementExists(selectors.allowIcon);
-        Assertions.elementExists(selectors.blockIcon);
-        Assertions.elementExists(selectors.overlaysIcon);
-        Assertions.elementExists(selectors.menuButton);
 
+      if (row.expectedBlock) {
         UIActions.getElement(selectors.blockIcon)
           .parent()
-          .should('contain.text', 'Download')
-          .and('contain.text', 'Copy')
-          .and('contain.text', 'Paste')
-          .and('contain.text', 'Print')
-          .and('contain.text', 'Type')
-          .and('contain.text', 'Upload');
-      });
+          .should($el => {
+            row.expectedBlock?.forEach(text => {
+              expect($el.text()).to.contain(text);
+            });
+          });
+      }
 
-      // Third row (index 4) validations
-      UIActions.getElement(selectors.tableRow).eq(4).within(() => {
-        Assertions.elementContainsText('*', mockData.thirdRule);
-        Assertions.elementContainsText('*', mockData.thirdDescription);
-        Assertions.elementContainsText('*', mockData.groups);
-        Assertions.elementExists(selectors.allowIcon);
-        Assertions.elementExists(selectors.blockIcon);
-        Assertions.elementExists(selectors.overlaysIcon);
-        Assertions.elementExists(selectors.menuButton);
-
-        UIActions.getElement(selectors.allowIcon)
-          .parent()
-          .should('contain.text', 'Copy')
-          .and('contain.text', 'Print')
-          .and('contain.text', 'Upload');
-
-        UIActions.getElement(selectors.blockIcon)
-          .parent()
-          .should('contain.text', 'Download')
-          .and('contain.text', 'Paste')
-          .and('contain.text', 'Type');
-
+      if (row.expectedOverlays) {
         UIActions.getElement(selectors.overlaysIcon)
           .parent()
-          .should('contain.text', 'Watermark');
-      });
-  }
+          .should($el => {
+            row.expectedOverlays?.forEach(text => {
+              expect($el.text()).to.contain(text);
+            });
+          });
+      }
+    });
+  });
+}
+
+
 
 function verifyNewFormUI() {
 
@@ -491,6 +502,14 @@ function setActivityState(labelText, state) {
   }
 
   });
+}
+
+function checkSuccessMessage(expectedText = msgs.CREATE_SUCCESS) {
+  cy.get(selectors.notifications.catoSnackbar).invoke('text').then(console.log)
+  cy.get(selectors.notifications.catoSnackbar)
+    .should('be.visible')
+    .invoke('text')
+    .should('include', expectedText)
 }
 
 
