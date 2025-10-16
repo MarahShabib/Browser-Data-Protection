@@ -1,5 +1,4 @@
-const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule } = require('./DataProtection.driver.cy')
-import { msgs } from './DataProtection.driver.cy';
+const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule} = require('./DataProtection.driver.cy')
 
 
 
@@ -16,9 +15,25 @@ describe('Browser Data Protection Tests', () => {
   //   verifyNewFormUI();
   // }); 
 
-  it('Create New Rule', () => {
-   createRule(exampleRule);
+  // it('Create New Rule', () => {
+  //  createRule(exampleRule);
+  //  checkSuccessMessage(msgs.CREATE_SUCCESS)
+  //  publishRule()
+  //  checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+  // });
+
+  
+  // it('Create Duplicate Rule', () => {
+  //  createRule(exampleRule);
+  //  checkSuccessMessage(msgs.Duplicate_Rule)
+  // });
+
+    it('Delete Existing Rule', () => {
+   deleteRule(exampleRule.name);
    checkSuccessMessage(msgs.CREATE_SUCCESS)
   });
+
+
+
   
 })

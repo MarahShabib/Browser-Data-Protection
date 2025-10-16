@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '946226'
+  mfa: '311100'
 }
 export const selectors = {
   // login
@@ -80,7 +80,11 @@ export const selectors = {
   uploadSwitch: '[data-testid="switch-browserExtRules.0.uploadSettings.enabled"]',
   downloadToggle: 'input[name="browserExtRules.0.downloadSettings.ruleEnabled"]',
   downloadSwitch: '[data-testid="switch-browserExtRules.0.downloadSettings.ruleEnabled"]',
-  waterMarkToggle: 'input[name="browserExtRules.0.waterMarkSettings.enabled"]'
+  waterMarkToggle: 'input[name="browserExtRules.0.waterMarkSettings.enabled"]',
+  catoSnackbar: '[id^="CatoSnackbar_"]',
+  catoSnackbarCloseButton: 'button:has(svg[data-icon-name="Close"])',
+  publishButton: '[data-testid="pps-publish-btn"]',
+  publishCatoButton: '[data-testid="catobutton-generic"]'
 };
 
 const mockData = {
@@ -93,11 +97,12 @@ const mockData = {
   groups: 'GROUP1'
 };
 
-export const msgs = {
+const msgs = {
 
   CREATE_SUCCESS: "Changes were applied to your unpublished revision. This revision is available for editing until it’s published or discarded.",
   UNPUBLISHED_SUCCESS_PREFIX: 'Changes were applied to your unpublished revision',
-  PUBLISH_SUCCESS: 'Changes published successfully'
+  PUBLISH_SUCCESS: 'Changes published successfully',
+  Duplicate_Rule: 'Rule with the same name already exists'
 }
 
 
@@ -120,7 +125,7 @@ export const ruleTemplate = {
 
 
 const exampleRule = {
-  name: 'Ruletest6',
+  name: 'Ruletest7',
   position: 'Last',
   description: 'Created by automation',
   userGroupType: 'User Group',
@@ -403,9 +408,12 @@ function verifyRulePosition(position, name) {
   }
 }
 
+
+
+
 function publishRule() {
-  cy.contains('button', 'Publish').first().should('be.visible').click()
-  cy.contains('button', 'Publish to Cato').first().should('be.visible').click()
+  cy.get(selectors.publishButton).first().should('be.visible').click()
+  cy.get(selectors.publishCatoButton).first().should('be.visible').click()
 }
 
 
@@ -505,12 +513,30 @@ function setActivityState(labelText, state) {
 }
 
 function checkSuccessMessage(expectedText = msgs.CREATE_SUCCESS) {
-  cy.get(selectors.notifications.catoSnackbar).invoke('text').then(console.log)
-  cy.get(selectors.notifications.catoSnackbar)
+  cy.get(selectors.catoSnackbar).invoke('text').then(console.log)
+  cy.get(selectors.catoSnackbar)
     .should('be.visible')
     .invoke('text')
     .should('include', expectedText)
+    cy.get(selectors.catoSnackbarCloseButton).click();
+
 }
+
+function deleteRule(name) {
+  UIActions.getElement(selectors.tableRow)
+    .filter(`:contains(${name})`)
+    .first()
+    .within(() => {
+      cy.get(selectors.menuButton).click();
+    });
+
+  cy.contains('span', 'Delete Rule').should('be.visible').click();
+  cy.get('button[data-testid="catobutton-generic"]')
+    .contains('Delete')
+    .should('be.visible')
+    .click();
+}
+
 
 
 
@@ -521,4 +547,8 @@ module.exports = {
   verifyNewFormUI,
   exampleRule,
   createRule,
+  checkSuccessMessage,
+  publishRule,
+  deleteRule,
+  msgs
 }
