@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '760793'
+  mfa: '400370'
 }
 export const selectors = {
   // login
@@ -200,6 +200,71 @@ const RULE_ALLOW_ALL = {
     Download: 'Allowed'
   }
 };
+
+const RULE_BLOCK_ONE_ACTION = {
+  name: 'Rule-OneBlock',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE_BLOCK_TWO_ACTION = {
+  name: 'Rule-TwoBlock',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Blocked',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE_BLOCK_THREE_ACTION = {
+  name: 'Rule-ThreeBlock',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Blocked',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Blocked',
+    Download: 'Allowed'
+  }
+};
+
+const RULE_BLOCK_ALL= {
+  name: 'Rule-Block-All',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Blocked',
+    Print: 'Blocked',
+    Type: 'Blocked',
+    Upload: 'Blocked',
+    Download: 'Blocked'
+  }
+};
+
 function loginAndNavigateToBrowserDataProtection() {
 
   // UIActions.visitPage(authUrl, false)
@@ -831,5 +896,9 @@ module.exports = {
   RULE_ALLOW_THREE_ACTION,
   RULE_ALLOW_ALL,
   verifytablecontainNewRule,
+  RULE_BLOCK_ONE_ACTION,
+  RULE_BLOCK_TWO_ACTION,
+  RULE_BLOCK_THREE_ACTION,
+  RULE_BLOCK_ALL,
   msgs
 }
