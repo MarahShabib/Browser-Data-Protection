@@ -1,4 +1,4 @@
-const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL} = require('./DataProtection.driver.cy')
+const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL,verifytablecontainNewRule} = require('./DataProtection.driver.cy')
 
 
 
@@ -10,6 +10,7 @@ describe('Browser Data Protection Tests', () => {
   it('Browser Data Protection UI is rendered correctly', () => {
     verifymainPageUI();
   });
+
 
   it('New Rule Form UI is rendered correctly', () => {
     verifyNewFormUI();
@@ -41,6 +42,7 @@ describe('Browser Data Protection Tests', () => {
   it('Add New Rule Allow ONLY 1 action ', () => {
    createRule(RULE_ALLOW_ONE_ACTION);
    checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_ALLOW_ONE_ACTION);
    publishRule()
    checkSuccessMessage(msgs.PUBLISH_SUCCESS)
   });
@@ -50,6 +52,7 @@ describe('Browser Data Protection Tests', () => {
   it('Add New Rule Allow ONLY 2 action ', () => {
    createRule(RULE_ALLOW_TWO_ACTION);
    checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_ALLOW_TWO_ACTION);
    publishRule()
    checkSuccessMessage(msgs.PUBLISH_SUCCESS)
   });
@@ -57,6 +60,7 @@ describe('Browser Data Protection Tests', () => {
   it('Add New Rule Allow ONLY 3 action ', () => {
    createRule(RULE_ALLOW_THREE_ACTION);
    checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_ALLOW_THREE_ACTION);
    publishRule()
    checkSuccessMessage(msgs.PUBLISH_SUCCESS)
   });
@@ -64,6 +68,7 @@ describe('Browser Data Protection Tests', () => {
   it('Add New Rule Allow All actions ', () => {
    createRule(RULE_ALLOW_ALL);
    checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_ALLOW_ALL);
    publishRule()
    checkSuccessMessage(msgs.PUBLISH_SUCCESS)
   });

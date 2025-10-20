@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '181262'
+  mfa: '760793'
 }
 export const selectors = {
   // login
@@ -452,65 +452,131 @@ function verifyActivitySection() {
   cy.wait(3000);
   const effectivePosition = position || 'Last';
   verifyRulePosition(effectivePosition, name);
-  verifytablecontainNewRule(rule);
+  // verifytablecontainNewRule(rule);
 
 }
+
+
+
+// function verifytablecontainNewRule(rule = {}) {
+//   const { name, position, description, userGroupType, userGroupName, activities } = rule;
+
+//   const row = position === 'First'
+//     ? UIActions.getElement(selectors.tableRow).first()
+//     : UIActions.getElement(selectors.tableRow).last();
+
+//   row.within(() => {
+//     Assertions.elementContainsText('*', name);
+
+//     if (description) {
+//       Assertions.elementContainsText('*', description);
+//     }
+
+//     if (userGroupName) {
+//       Assertions.elementContainsText('*', userGroupName);
+//     }
+
+//     if (activities) {
+//       const allowedActions = Object.entries(activities)
+//         .filter(([, value]) => value === 'Allowed')
+//         .map(([key]) => key);
+
+//       const blockedActions = Object.entries(activities)
+//         .filter(([, value]) => value === 'Blocked')
+//         .map(([key]) => key);
+
+//       if (allowedActions.length) {
+//         Assertions.elementExists(selectors.allowIcon);
+//         UIActions.getElement(selectors.allowIcon)
+//           .parent()
+//           .should($el => {
+//             allowedActions.forEach(action => {
+//               expect($el.text()).to.contain(action);
+//             });
+//           });
+//       }
+
+//       if (blockedActions.length) {
+//         Assertions.elementExists(selectors.blockIcon);
+//         UIActions.getElement(selectors.blockIcon)
+//           .parent()
+//           .should($el => {
+//             blockedActions.forEach(action => {
+//               expect($el.text()).to.contain(action);
+//             });
+//           });
+//       }
+//     }
+
+//     Assertions.elementExists(selectors.menuButton);
+//   });
+// }
 
 
 
 function verifytablecontainNewRule(rule = {}) {
   const { name, position, description, userGroupType, userGroupName, activities } = rule;
 
-  const row = position === 'First'
-    ? UIActions.getElement(selectors.tableRow).first()
-    : UIActions.getElement(selectors.tableRow).last();
+  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
+    const rowsArray = [...$rows];
+    
+    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
 
-  row.within(() => {
-    Assertions.elementContainsText('*', name);
+    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
 
-    if (description) {
-      Assertions.elementContainsText('*', description);
-    }
+    const rowIndex = rowsArray.indexOf(matchingRow);
 
-    if (userGroupName) {
-      Assertions.elementContainsText('*', userGroupName);
-    }
+    cy.wrap(matchingRow).within(() => {
+      Assertions.elementContainsText('*', name);
 
-    if (activities) {
-      const allowedActions = Object.entries(activities)
-        .filter(([, value]) => value === 'Allowed')
-        .map(([key]) => key);
-
-      const blockedActions = Object.entries(activities)
-        .filter(([, value]) => value === 'Blocked')
-        .map(([key]) => key);
-
-      if (allowedActions.length) {
-        Assertions.elementExists(selectors.allowIcon);
-        UIActions.getElement(selectors.allowIcon)
-          .parent()
-          .should($el => {
-            allowedActions.forEach(action => {
-              expect($el.text()).to.contain(action);
-            });
-          });
+      if (description) {
+        Assertions.elementContainsText('*', description);
       }
 
-      if (blockedActions.length) {
-        Assertions.elementExists(selectors.blockIcon);
-        UIActions.getElement(selectors.blockIcon)
-          .parent()
-          .should($el => {
-            blockedActions.forEach(action => {
-              expect($el.text()).to.contain(action);
-            });
-          });
+      if (userGroupName) {
+        Assertions.elementContainsText('*', userGroupName);
       }
-    }
 
-    Assertions.elementExists(selectors.menuButton);
+      if (activities) {
+        const allowedActions = Object.entries(activities)
+          .filter(([, value]) => value === 'Allowed')
+          .map(([key]) => key);
+
+        const blockedActions = Object.entries(activities)
+          .filter(([, value]) => value === 'Blocked')
+          .map(([key]) => key);
+
+        if (allowedActions.length) {
+          Assertions.elementExists(selectors.allowIcon);
+          UIActions.getElement(selectors.allowIcon)
+            .parent()
+            .should($el => {
+              allowedActions.forEach(action => {
+                expect($el.text()).to.contain(action);
+              });
+            });
+        }
+
+        if (blockedActions.length) {
+          Assertions.elementExists(selectors.blockIcon);
+          UIActions.getElement(selectors.blockIcon)
+            .parent()
+            .should($el => {
+              blockedActions.forEach(action => {
+                expect($el.text()).to.contain(action);
+              });
+            });
+        }
+      }
+
+      Assertions.elementExists(selectors.menuButton);
+    });
   });
+   
+  verifyRulePosition(position,name);
+
 }
+
 
 
 
@@ -520,10 +586,7 @@ function verifyRulePosition(position, name) {
       .find('td')
       .eq(2)
       .should('contain.text', name);
-      /////////////
-
-
-
+   
   } else if (position == 'First') {
   UIActions.getElement(selectors.tableRow).first()
       .find('td')
@@ -767,5 +830,6 @@ module.exports = {
   RULE_ALLOW_TWO_ACTION,
   RULE_ALLOW_THREE_ACTION,
   RULE_ALLOW_ALL,
+  verifytablecontainNewRule,
   msgs
 }
