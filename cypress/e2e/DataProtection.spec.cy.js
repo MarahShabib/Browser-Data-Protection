@@ -7,59 +7,59 @@ describe('Browser Data Protection Tests', () => {
     loginAndNavigateToBrowserDataProtection()
   })
 
-  // it('Browser Data Protection UI is rendered correctly', () => {
-  //   verifymainPageUI();
-  // });
+  it('Browser Data Protection UI is rendered correctly', () => {
+    verifymainPageUI();
+  });
 
-  // it('New Rule Form UI is rendered correctly', () => {
-  //   verifyNewFormUI();
-  // }); 
+  it('New Rule Form UI is rendered correctly', () => {
+    verifyNewFormUI();
+  }); 
 
-  //  it('Enable/Disable policy without rule', () => {
-  //   EnableBrowserDataProtectionAndVerify(false);
-  //   checkSuccessMessage(msgs.DisableBrowserDataProtection)
-  //   EnableBrowserDataProtectionAndVerify(true);
-  //   checkSuccessMessage(msgs.EnableBrowserDataProtection)
+   it('Enable/Disable policy without rule', () => {
+    EnableBrowserDataProtectionAndVerify(false);
+    checkSuccessMessage(msgs.DisableBrowserDataProtection)
+    EnableBrowserDataProtectionAndVerify(true);
+    checkSuccessMessage(msgs.EnableBrowserDataProtection)
    
-  // });
+  });
 
 
-  //   it('Enable/Disable policy with rule', () => {
-  //   createRule(exampleRule);
-  //   EnableBrowserDataProtectionAndVerify(false);
-  //   checkSuccessMessage(msgs.DisableBrowserDataProtection)
-  //   EnableBrowserDataProtectionAndVerify(true);
-  //   checkSuccessMessage(msgs.EnableBrowserDataProtection)
+  it('Enable/Disable policy with rule', () => {
+    createRule(exampleRule);
+    EnableBrowserDataProtectionAndVerify(false);
+    checkSuccessMessage(msgs.DisableBrowserDataProtection)
+    EnableBrowserDataProtectionAndVerify(true);
+    checkSuccessMessage(msgs.EnableBrowserDataProtection)
 
-  // });
+  });
 
-  //   it('Check default policy Rule Action', () => {
-  //   verifyBrowserPolicyDefaultRoleAllActionsAllowed();
+  it('Check default policy Rule Action', () => {
+    verifyBrowserPolicyDefaultRoleAllActionsAllowed();
 
-  // });
+  });
 
-  //   it('Add New Rule Allow ONLY 1 action ', () => {
-  //  createRule(RULE_ALLOW_ONE_ACTION);
-  //  checkSuccessMessage(msgs.CREATE_SUCCESS)
-  //  publishRule()
-  //  checkSuccessMessage(msgs.PUBLISH_SUCCESS)
-  // });
+  it('Add New Rule Allow ONLY 1 action ', () => {
+   createRule(RULE_ALLOW_ONE_ACTION);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+  });
 
 
 
-  //  it('Add New Rule Allow ONLY 2 action ', () => {
-  //  createRule(RULE_ALLOW_TWO_ACTION);
-  //  checkSuccessMessage(msgs.CREATE_SUCCESS)
-  //  publishRule()
-  //  checkSuccessMessage(msgs.PUBLISH_SUCCESS)
-  // });
+  it('Add New Rule Allow ONLY 2 action ', () => {
+   createRule(RULE_ALLOW_TWO_ACTION);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+  });
 
-  // it('Add New Rule Allow ONLY 3 action ', () => {
-  //  createRule(RULE_ALLOW_THREE_ACTION);
-  //  checkSuccessMessage(msgs.CREATE_SUCCESS)
-  //  publishRule()
-  //  checkSuccessMessage(msgs.PUBLISH_SUCCESS)
-  // });
+  it('Add New Rule Allow ONLY 3 action ', () => {
+   createRule(RULE_ALLOW_THREE_ACTION);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+  });
 
   it('Add New Rule Allow All actions ', () => {
    createRule(RULE_ALLOW_ALL);
@@ -68,33 +68,19 @@ describe('Browser Data Protection Tests', () => {
    checkSuccessMessage(msgs.PUBLISH_SUCCESS)
   });
 
-  // it('Create New Rule', () => {
-  //  createRule(exampleRule);
-  //  checkSuccessMessage(msgs.CREATE_SUCCESS)
-  //  publishRule()
-  //  checkSuccessMessage(msgs.PUBLISH_SUCCESS)
-  // });
 
-  
-  // it('Create Duplicate Rule', () => {
-  //  createRule(exampleRule);
-  //  checkSuccessMessage(msgs.Duplicate_Rule)
-  // });
+  it('Create Duplicate Rule', () => {
+   createRule(exampleRule);
+   checkSuccessMessage(msgs.Duplicate_Rule)
+  });
 
-  //  it('Delete Existing Rule', () => {
-  //  deleteRule(exampleRule.name);
-  //  checkSuccessMessage(msgs.CREATE_SUCCESS)
-  // });
+   it('Delete Existing Rule', () => {
+   deleteRule(exampleRule.name);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+  });
   
   
  
-
-
-
-
-
-
-
 
   
 })
