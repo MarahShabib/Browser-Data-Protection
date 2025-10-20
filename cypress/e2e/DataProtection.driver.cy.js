@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '311100'
+  mfa: '181262'
 }
 export const selectors = {
   // login
@@ -84,7 +84,15 @@ export const selectors = {
   catoSnackbar: '[id^="CatoSnackbar_"]',
   catoSnackbarCloseButton: 'button:has(svg[data-icon-name="Close"])',
   publishButton: '[data-testid="pps-publish-btn"]',
-  publishCatoButton: '[data-testid="catobutton-generic"]'
+  publishCatoButton: '[data-testid="catobutton-generic"]',
+  browserDataProtectionToggleInput: 'input[type="checkbox"][aria-label="controlled"]',
+  browserDataProtectionToggleLabel: 'label[data-testid="pps-enable-toggle"] span.MuiV5-FormControlLabel-label',
+  confirmationContinueButton: 'button[label="Continue"][data-testid="catobutton-generic"]',
+  confirmationDialog: '[role="dialog"]',
+  browserExtensionDefaultRulesTableRow: 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"] tbody tr',
+  browserExtensionDefaultRulesTable : 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"]'
+
+
 };
 
 const mockData = {
@@ -102,26 +110,14 @@ const msgs = {
   CREATE_SUCCESS: "Changes were applied to your unpublished revision. This revision is available for editing until it’s published or discarded.",
   UNPUBLISHED_SUCCESS_PREFIX: 'Changes were applied to your unpublished revision',
   PUBLISH_SUCCESS: 'Changes published successfully',
-  Duplicate_Rule: 'Rule with the same name already exists'
+  Duplicate_Rule: 'Rule with the same name already exists',
+  EnableBrowserDataProtection: 'Browser Data Protection was enabled successfully',
+  DisableBrowserDataProtection: 'Browser Data Protection was disabled successfully'
 }
 
 
 
-export const ruleTemplate = {
-  name: '',
-  position: 'Last', 
-  description: '',
-  userGroupType: 'User Group', 
-  userGroupName: '',
-  activities: {
-    Copy: 'Allowed',
-    Paste: 'Allowed',
-    Print: 'Allowed',
-    Type: 'Allowed',
-    Upload: 'Allowed',
-    Download: 'Allowed'
-  }
-};
+
 
 
 const exampleRule = {
@@ -140,6 +136,70 @@ const exampleRule = {
   }
 };
 
+const RULE_ALLOW_ONE_ACTION = {
+  name: 'Rule-OneAllow',
+  position: 'Last',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Blocked',
+    Print: 'Blocked',
+    Type: 'Blocked',
+    Upload: 'Blocked',
+    Download: 'Blocked'
+  }
+};
+
+
+const RULE_ALLOW_TWO_ACTION = {
+  name: 'Rule-twoAllow',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Blocked',
+    Print: 'Blocked',
+    Type: 'Allowed',
+    Upload: 'Blocked',
+    Download: 'Blocked'
+  }
+};
+
+const RULE_ALLOW_THREE_ACTION = {
+  name: 'Rule-threeAllow',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Blocked',
+    Print: 'Blocked',
+    Type: 'Allowed',
+    Upload: 'Blocked',
+    Download: 'Allowed'
+  }
+};
+
+const RULE_ALLOW_ALL = {
+  name: 'Rule-Allow-All',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: 'GROUP1',
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
 function loginAndNavigateToBrowserDataProtection() {
 
   // UIActions.visitPage(authUrl, false)
@@ -392,7 +452,67 @@ function verifyActivitySection() {
   cy.wait(3000);
   const effectivePosition = position || 'Last';
   verifyRulePosition(effectivePosition, name);
+  verifytablecontainNewRule(rule);
+
 }
+
+
+
+function verifytablecontainNewRule(rule = {}) {
+  const { name, position, description, userGroupType, userGroupName, activities } = rule;
+
+  const row = position === 'First'
+    ? UIActions.getElement(selectors.tableRow).first()
+    : UIActions.getElement(selectors.tableRow).last();
+
+  row.within(() => {
+    Assertions.elementContainsText('*', name);
+
+    if (description) {
+      Assertions.elementContainsText('*', description);
+    }
+
+    if (userGroupName) {
+      Assertions.elementContainsText('*', userGroupName);
+    }
+
+    if (activities) {
+      const allowedActions = Object.entries(activities)
+        .filter(([, value]) => value === 'Allowed')
+        .map(([key]) => key);
+
+      const blockedActions = Object.entries(activities)
+        .filter(([, value]) => value === 'Blocked')
+        .map(([key]) => key);
+
+      if (allowedActions.length) {
+        Assertions.elementExists(selectors.allowIcon);
+        UIActions.getElement(selectors.allowIcon)
+          .parent()
+          .should($el => {
+            allowedActions.forEach(action => {
+              expect($el.text()).to.contain(action);
+            });
+          });
+      }
+
+      if (blockedActions.length) {
+        Assertions.elementExists(selectors.blockIcon);
+        UIActions.getElement(selectors.blockIcon)
+          .parent()
+          .should($el => {
+            blockedActions.forEach(action => {
+              expect($el.text()).to.contain(action);
+            });
+          });
+      }
+    }
+
+    Assertions.elementExists(selectors.menuButton);
+  });
+}
+
+
 
 function verifyRulePosition(position, name) {
   if (position == 'Last') {
@@ -400,6 +520,10 @@ function verifyRulePosition(position, name) {
       .find('td')
       .eq(2)
       .should('contain.text', name);
+      /////////////
+
+
+
   } else if (position == 'First') {
   UIActions.getElement(selectors.tableRow).first()
       .find('td')
@@ -518,7 +642,16 @@ function checkSuccessMessage(expectedText = msgs.CREATE_SUCCESS) {
     .should('be.visible')
     .invoke('text')
     .should('include', expectedText)
-    cy.get(selectors.catoSnackbarCloseButton).click();
+
+    // cy.get(selectors.catoSnackbarCloseButton).click();
+
+  cy.get('body').then($body => {
+  if ($body.find('button:has(svg[data-icon-name="Close"])').length > 0) {
+    cy.get('button:has(svg[data-icon-name="Close"])').click({ force: true });
+  }
+});
+
+
 
 }
 
@@ -540,6 +673,84 @@ function deleteRule(name) {
 
 
 
+function EnableBrowserDataProtectionAndVerify(shouldEnable) {
+  const expectedLabel = shouldEnable
+    ? "Browser Data Protection Enabled"
+    : "Browser Data Protection Disabled";
+
+  UIActions.getElement(selectors.browserDataProtectionToggleLabel).then($label => {
+    const currentLabel = $label.text().trim();
+
+    if (currentLabel !== expectedLabel) {
+      UIActions.clickOnElement(selectors.browserDataProtectionToggleInput);
+
+      UIActions.getElement(selectors.confirmationDialog, { timeout: 5000 })
+        .should("be.visible")
+        .within(() => {
+          UIActions.clickOnElement(selectors.confirmationContinueButton);
+        });
+
+
+      Assertions.elementContainsText(selectors.browserDataProtectionToggleLabel, expectedLabel);
+    } else {
+      Assertions.elementContainsText(selectors.browserDataProtectionToggleLabel, expectedLabel);
+    }
+  });
+}
+
+
+// function verifyBrowserPolicyDefaultRoleAllActionsAllowed() {
+//   const expectedAllowedActions = ['Download', 'Copy', 'Paste', 'Print', 'Type', 'Upload'];
+
+
+//   cy.get('table[data-testid="awesometable-table-browser.extension.policy.defaultRules"]').should('be.visible');
+
+//   const rowIndex = 1; 
+
+//   cy.get(selectors.browserExtensionDefaultRulesTableRow)
+//     .eq(rowIndex)
+//     .should('exist') 
+//     .within(() => {
+//       cy.get(selectors.allowIcon, { timeout: 8000 }).should('exist');
+
+//       expectedAllowedActions.forEach(action => {
+//         cy.contains(action).should('exist');
+//       });
+
+//     });
+// }
+
+
+function verifyBrowserPolicyDefaultRoleAllActionsAllowed() {
+  const expectedAllowedActions = ['Download', 'Copy', 'Paste', 'Print', 'Type', 'Upload'];
+  const rowIndex = 1;
+
+  Assertions.elementIsVisible(selectors.browserExtensionDefaultRulesTable);
+
+  UIActions.getElement(selectors.browserExtensionDefaultRulesTableRow)
+    .eq(rowIndex)
+    .should('exist')
+    .within(() => {
+
+          UIActions.getElement(selectors.allowIcon)
+          .parent()
+          .should($el => {
+            expectedAllowedActions?.forEach(text => {
+              expect($el.text()).to.contain(text);
+            });
+          });
+
+    });
+}
+
+
+
+
+
+
+
+
+
 
 module.exports = {
   loginAndNavigateToBrowserDataProtection,
@@ -550,5 +761,11 @@ module.exports = {
   checkSuccessMessage,
   publishRule,
   deleteRule,
+  EnableBrowserDataProtectionAndVerify,
+  verifyBrowserPolicyDefaultRoleAllActionsAllowed,
+  RULE_ALLOW_ONE_ACTION,
+  RULE_ALLOW_TWO_ACTION,
+  RULE_ALLOW_THREE_ACTION,
+  RULE_ALLOW_ALL,
   msgs
 }
