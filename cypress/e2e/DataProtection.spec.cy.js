@@ -1,4 +1,4 @@
-const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL,verifytablecontainNewRule ,RULE_BLOCK_ONE_ACTION,RULE_BLOCK_TWO_ACTION,RULE_BLOCK_THREE_ACTION,RULE_BLOCK_ALL ,RULE_MULTIPLE_USER ,RULE_WITH_WATERMARK } = require('./DataProtection.driver.cy')
+const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL,verifytablecontainNewRule ,RULE_BLOCK_ONE_ACTION,RULE_BLOCK_TWO_ACTION,RULE_BLOCK_THREE_ACTION,RULE_BLOCK_ALL ,RULE_MULTIPLE_USER ,RULE_WITH_WATERMARK ,EditRule ,NEW_RULE_VALUES ,NEW_RULE_VALUES_2,NEW_RULE_VALUES_3 } = require('./DataProtection.driver.cy')
 
 
 
@@ -138,6 +138,38 @@ describe('Browser Data Protection Tests', () => {
   });
   
   
+   it('Edit Existing Rule - Name', () => {
+   createRule(RULE_ALLOW_ALL);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_ALLOW_ALL);
+   EditRule(RULE_ALLOW_ALL ,NEW_RULE_VALUES) 
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(NEW_RULE_VALUES);
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+  });
+  
+  it('Edit Existing Rule - User/Group', () => {
+   createRule(RULE_ALLOW_ALL);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_ALLOW_ALL);
+   EditRule(RULE_ALLOW_ALL ,NEW_RULE_VALUES_2) 
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(NEW_RULE_VALUES_2);
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+  });
+
+   it('Edit Existing Rule - Action', () => {
+   createRule(RULE_ALLOW_ALL);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_ALLOW_ALL);
+   EditRule(RULE_ALLOW_ALL ,NEW_RULE_VALUES_3) 
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(NEW_RULE_VALUES_3);
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+  });
  
 
   

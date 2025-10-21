@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '431835'
+  mfa: '049289'
 }
 export const selectors = {
   // login
@@ -295,6 +295,31 @@ const RULE_WITH_WATERMARK= {
 
 };
 
+
+const NEW_RULE_VALUES = {
+  name: 'New-Rule'
+};
+
+const NEW_RULE_VALUES_2 = {
+  name: 'Rule-Allow-All',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1','GROUP2'],
+};
+
+const NEW_RULE_VALUES_3 = {
+    name: 'Rule-Allow-All',
+    activities: {
+    Copy: 'Blocked',
+    Paste: 'Blocked',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  },
+  overlays: 'true'
+ 
+};
+
 function loginAndNavigateToBrowserDataProtection() {
 
   // UIActions.visitPage(authUrl, false)
@@ -506,14 +531,24 @@ function verifyActivitySection() {
   function createRule(rule = {}) {
   const { name, position, description, userGroupType, userGroupName, activities , overlays } = rule;
 
-     Assertions.elementIsVisible(selectors.newButton);
-      UIActions.clickOnElement(selectors.newButton);
+    Assertions.elementIsVisible(selectors.newButton);
+    UIActions.clickOnElement(selectors.newButton);
+    setValues(rule)
+    UIActions.getElement(selectors.saveButton).should('be.visible').click();
+     cy.wait(3000);
+}
 
-      UIActions.typeInElement(selectors.nameInput, name);
+
+function setValues(rule = {}) {
+    const { name, position, description, userGroupType, userGroupName, activities , overlays } = rule;
+   
+   if(name){
+      UIActions.typeInElement(selectors.nameInput, name, true);
+    }
 
 
   if (description) {
-     UIActions.typeInElement(selectors.descriptionInput, description);
+     UIActions.typeInElement(selectors.descriptionInput, description, true);
   }
   if (position) {
     UIActions.clickOnElement(selectors.positionSelectValue);
@@ -547,15 +582,6 @@ function verifyActivitySection() {
      UIActions.check(selectors.waterMarkToggle);
     }
   }
-
-
-  UIActions.getElement(selectors.saveButton).should('be.visible').click();
-
-  cy.wait(3000);
-  const effectivePosition = position || 'Last';
-  verifyRulePosition(effectivePosition, name);
-  // verifytablecontainNewRule(rule);
-
 }
 
 
@@ -693,10 +719,41 @@ function verifytablecontainNewRule(rule = {}) {
       Assertions.elementExists(selectors.menuButton);
     });
   });
-   
+
+  const effectivePosition = position || 'Last';
   verifyRulePosition(position,name);
 
 }
+
+
+
+
+function EditRule(rule = {} , newRule) {
+  const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
+
+  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
+    const rowsArray = [...$rows];
+    
+    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
+
+    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
+
+    const rowIndex = rowsArray.indexOf(matchingRow);
+
+    cy.wrap(matchingRow).within(() => {
+      Assertions.elementContainsText('*', name);
+      UIActions.getElement('[aria-label="Edit"]').first().click({force: true});
+    });
+      
+    setValues(newRule)
+    UIActions.getElement(selectors.saveButton).should('be.visible').click();
+     cy.wait(3000);
+          
+
+  });
+   
+}
+
 
 
 
@@ -764,6 +821,41 @@ function publishRule() {
 // }
 
 
+// function selectUserGroupType(type, names) {
+//   UIActions.clickOnElement(selectors.usergroupSection);
+//   UIActions.clickOnElement(selectors.userMenu);
+
+//   UIActions.getElement(selectors.userlist)
+//     .contains(type)
+//     .should('be.visible')
+//     .click();
+
+//   names.forEach(name => {
+//     UIActions.getElement(selectors.userSearch)
+//       .should('be.visible')
+//       .clear()
+//       .type(name, { delay: 100 });
+
+//     UIActions.getElement(selectors.userSelect)
+//       .should('be.visible')
+//       .contains(name)
+//       .click();
+//   });
+
+ 
+//   UIActions.getElement(selectors.usersGroupsTable).within(() => {
+//     names.forEach(name => {
+//       UIActions.getElement(selectors.tbodyRow)
+//         .contains(name)
+//     });
+//   });
+
+
+
+
+// }
+
+
 function selectUserGroupType(type, names) {
   UIActions.clickOnElement(selectors.usergroupSection);
   UIActions.clickOnElement(selectors.userMenu);
@@ -773,30 +865,58 @@ function selectUserGroupType(type, names) {
     .should('be.visible')
     .click();
 
+  // Add only users that are not already in the table
   names.forEach(name => {
-    UIActions.getElement(selectors.userSearch)
-      .should('be.visible')
-      .clear()
-      .type(name, { delay: 100 });
+    UIActions.getElement(selectors.usersGroupsTable).then($table => {
+      const nameAlreadyExists = $table.find(selectors.tbodyRow).toArray().some(row =>
+        row.innerText.includes(name)
+      );
 
-    UIActions.getElement(selectors.userSelect)
-      .should('be.visible')
-      .contains(name)
-      .click();
+      if (!nameAlreadyExists) {
+        UIActions.getElement(selectors.userSearch)
+          .should('be.visible')
+          .clear()
+          .type(name, { delay: 100 });
+
+        UIActions.getElement(selectors.userSelect)
+          .should('be.visible')
+          .contains(name)
+          .click();
+      }
+    });
   });
 
- 
+  // Remove users from the table if they are not in the `names` list
+  // UIActions.getElement(selectors.usersGroupsTable)
+  // .find(selectors.tbodyRow)
+  // .each($row => {
+  //   const row = cy.wrap($row);
+
+  //   row.find('td').first().invoke('text').then(cellText => {
+  //     const trimmedText = cellText.trim();
+
+  //     const matchedName = names.find(name => name === trimmedText);
+
+  //     if (matchedName) {
+  //       cy.log(`✅ Keeping: ${matchedName}`);
+  //     } else {
+  //       cy.log(`❌ Deleting row: ${trimmedText}`);
+  //       Assertions.elementExists(selectors.deleteButton);
+  //       row.find(selectors.deleteButton).click();
+  //     }
+  //   });
+  // });
+
+  // Final check to ensure expected names are present
   UIActions.getElement(selectors.usersGroupsTable).within(() => {
     names.forEach(name => {
       UIActions.getElement(selectors.tbodyRow)
         .contains(name)
+        .should('exist');
     });
   });
-
-
-
-
 }
+
 
 
 function selectActivity(activities) {
@@ -994,5 +1114,9 @@ module.exports = {
   RULE_BLOCK_ALL,
   RULE_MULTIPLE_USER ,
   RULE_WITH_WATERMARK,
+  EditRule,
+  NEW_RULE_VALUES,
+  NEW_RULE_VALUES_2,
+  NEW_RULE_VALUES_3,
   msgs
 }
