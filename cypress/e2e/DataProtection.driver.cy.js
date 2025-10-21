@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '400370'
+  mfa: '431835'
 }
 export const selectors = {
   // login
@@ -116,16 +116,12 @@ const msgs = {
 }
 
 
-
-
-
-
 const exampleRule = {
   name: 'Ruletest7',
   position: 'Last',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1' ,'GROUP2'],
   activities: {
     Copy: 'Blocked',
     Paste: 'Allowed',
@@ -141,7 +137,7 @@ const RULE_ALLOW_ONE_ACTION = {
   position: 'Last',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Allowed',
     Paste: 'Blocked',
@@ -158,7 +154,7 @@ const RULE_ALLOW_TWO_ACTION = {
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Allowed',
     Paste: 'Blocked',
@@ -174,7 +170,7 @@ const RULE_ALLOW_THREE_ACTION = {
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Allowed',
     Paste: 'Blocked',
@@ -190,7 +186,7 @@ const RULE_ALLOW_ALL = {
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Allowed',
     Paste: 'Allowed',
@@ -206,7 +202,7 @@ const RULE_BLOCK_ONE_ACTION = {
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Blocked',
     Paste: 'Allowed',
@@ -222,7 +218,7 @@ const RULE_BLOCK_TWO_ACTION = {
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Blocked',
     Paste: 'Blocked',
@@ -238,7 +234,7 @@ const RULE_BLOCK_THREE_ACTION = {
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Blocked',
     Paste: 'Blocked',
@@ -254,7 +250,7 @@ const RULE_BLOCK_ALL= {
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
-  userGroupName: 'GROUP1',
+  userGroupName: ['GROUP1'],
   activities: {
     Copy: 'Blocked',
     Paste: 'Blocked',
@@ -263,6 +259,40 @@ const RULE_BLOCK_ALL= {
     Upload: 'Blocked',
     Download: 'Blocked'
   }
+};
+
+const RULE_MULTIPLE_USER = {
+  name: 'Rule-multipleUser',
+  position: 'Last',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1' ,'GROUP2'],
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Allowed',
+    Print: 'Blocked',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Blocked'
+  }
+};
+
+const RULE_WITH_WATERMARK= {
+  name: 'Rule-waterMark',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Blocked',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  },
+  overlays: 'true'
+
 };
 
 function loginAndNavigateToBrowserDataProtection() {
@@ -474,7 +504,7 @@ function verifyActivitySection() {
 
 
   function createRule(rule = {}) {
-  const { name, position, description, userGroupType, userGroupName, activities } = rule;
+  const { name, position, description, userGroupType, userGroupName, activities , overlays } = rule;
 
      Assertions.elementIsVisible(selectors.newButton);
       UIActions.clickOnElement(selectors.newButton);
@@ -511,6 +541,13 @@ function verifyActivitySection() {
      selectActivity(activities)
   
   }
+  
+  if (overlays) {
+    if(overlays == 'true'){
+     UIActions.check(selectors.waterMarkToggle);
+    }
+  }
+
 
   UIActions.getElement(selectors.saveButton).should('be.visible').click();
 
@@ -580,7 +617,7 @@ function verifyActivitySection() {
 
 
 function verifytablecontainNewRule(rule = {}) {
-  const { name, position, description, userGroupType, userGroupName, activities } = rule;
+  const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
 
   UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
     const rowsArray = [...$rows];
@@ -599,7 +636,14 @@ function verifytablecontainNewRule(rule = {}) {
       }
 
       if (userGroupName) {
-        Assertions.elementContainsText('*', userGroupName);
+        // Assertions.elementContainsText('*', userGroupName);
+           if (Array.isArray(userGroupName)) {
+              userGroupName.forEach(name => {
+              Assertions.elementContainsText('*', name);
+             });
+            } else {
+                 Assertions.elementContainsText('*', userGroupName);
+             }
       }
 
       if (activities) {
@@ -633,6 +677,18 @@ function verifytablecontainNewRule(rule = {}) {
             });
         }
       }
+      if(overlays){
+           if(overlays == 'true'){
+             Assertions.elementExists(selectors.overlaysIcon);
+             UIActions.getElement(selectors.overlaysIcon)
+            .parent()
+            .should($el => {
+                  expect($el.text()).to.contain("Watermark");
+              });
+
+           }
+      }
+
 
       Assertions.elementExists(selectors.menuButton);
     });
@@ -671,41 +727,77 @@ function publishRule() {
 
 
 
-function selectUserGroupType(type,name) {
+// function selectUserGroupType(type,name) {
+//   UIActions.clickOnElement(selectors.usergroupSection);
+
+//      UIActions.clickOnElement(selectors.userMenu);
+
+//  UIActions.getElement(selectors.userlist)
+//     .contains(type)
+//     .should('be.visible')
+//     .click();
+
+//     UIActions.getElement(selectors.userSearch)
+//   .should('be.visible')
+//   .clear()
+//   .type(name, { delay: 100 });
+
+
+//    UIActions.getElement(selectors.userSelect)
+//   .should('be.visible')
+//   .contains(name)
+//   .click();
+
+
+//     UIActions.getElement(selectors.usersGroupsTable).within(() => {
+//       UIActions.getElement(selectors.tbodyRow)
+//           .first()
+//           .within(() => {
+            
+//             UIActions.getElement(selectors.roleCell).eq(1).should('contain', name); 
+//             UIActions.getElement(selectors.roleCell).eq(2).should('contain', type); 
+//           });
+//         });
+
+    
+
+// }
+
+
+function selectUserGroupType(type, names) {
   UIActions.clickOnElement(selectors.usergroupSection);
+  UIActions.clickOnElement(selectors.userMenu);
 
-     UIActions.clickOnElement(selectors.userMenu);
-
- UIActions.getElement(selectors.userlist)
+  UIActions.getElement(selectors.userlist)
     .contains(type)
     .should('be.visible')
     .click();
 
+  names.forEach(name => {
     UIActions.getElement(selectors.userSearch)
-  .should('be.visible')
-  .clear()
-  .type(name, { delay: 100 });
+      .should('be.visible')
+      .clear()
+      .type(name, { delay: 100 });
 
+    UIActions.getElement(selectors.userSelect)
+      .should('be.visible')
+      .contains(name)
+      .click();
+  });
 
-   UIActions.getElement(selectors.userSelect)
-  .should('be.visible')
-  .contains(name)
-  .click();
-
-
-    UIActions.getElement(selectors.usersGroupsTable).within(() => {
+ 
+  UIActions.getElement(selectors.usersGroupsTable).within(() => {
+    names.forEach(name => {
       UIActions.getElement(selectors.tbodyRow)
-          .first()
-          .within(() => {
-            
-            UIActions.getElement(selectors.roleCell).eq(1).should('contain', name); 
-            UIActions.getElement(selectors.roleCell).eq(2).should('contain', type); 
-          });
-        });
+        .contains(name)
+    });
+  });
 
-    
+
+
 
 }
+
 
 function selectActivity(activities) {
 
@@ -900,5 +992,7 @@ module.exports = {
   RULE_BLOCK_TWO_ACTION,
   RULE_BLOCK_THREE_ACTION,
   RULE_BLOCK_ALL,
+  RULE_MULTIPLE_USER ,
+  RULE_WITH_WATERMARK,
   msgs
 }

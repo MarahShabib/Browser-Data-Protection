@@ -1,4 +1,4 @@
-const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL,verifytablecontainNewRule ,RULE_BLOCK_ONE_ACTION,RULE_BLOCK_TWO_ACTION,RULE_BLOCK_THREE_ACTION,RULE_BLOCK_ALL} = require('./DataProtection.driver.cy')
+const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL,verifytablecontainNewRule ,RULE_BLOCK_ONE_ACTION,RULE_BLOCK_TWO_ACTION,RULE_BLOCK_THREE_ACTION,RULE_BLOCK_ALL ,RULE_MULTIPLE_USER ,RULE_WITH_WATERMARK } = require('./DataProtection.driver.cy')
 
 
 
@@ -117,6 +117,24 @@ describe('Browser Data Protection Tests', () => {
    it('Delete Existing Rule', () => {
    deleteRule(exampleRule.name);
    checkSuccessMessage(msgs.CREATE_SUCCESS)
+  });
+
+  it('Add New Rule with Multiple Users', () => {
+   createRule(RULE_MULTIPLE_USER);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_MULTIPLE_USER);
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+
+  });
+
+    it('Add New Rule with overlays', () => {
+   createRule(RULE_WITH_WATERMARK);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_WITH_WATERMARK);
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+
   });
   
   
