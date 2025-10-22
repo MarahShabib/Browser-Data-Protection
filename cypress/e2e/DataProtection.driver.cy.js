@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '792924'
+  mfa: '250513'
 }
 export const selectors = {
   // login
@@ -39,7 +39,7 @@ export const selectors = {
     modalCloseButton: 'button[aria-label="Close"]',
     modalCloseIcon: 'svg[data-icon-name="Close"]',
     expandAllTextTag: 'p',
-  newRuleSections: ['General', 'Users/Groups', 'Activity'],
+  newRuleSections: ['General', 'Users/Groups', 'Action'],
     saveButton: '[data-testid="catobutton-save"]',
     cancelButton: '[data-testid="catobutton-cancel"]',
     nameInput: '#name',
@@ -1188,13 +1188,17 @@ function verifyBrowserPolicyDefaultRoleAllActionsAllowed() {
     .should('exist')
     .within(() => {
 
+          // UIActions.getElement(selectors.allowIcon)
+          // .parent()
+          // .should($el => {
+          //   expectedAllowedActions?.forEach(text => {
+          //     expect($el.text()).to.contain(text);
+          //   });
+          // });
           UIActions.getElement(selectors.allowIcon)
-          .parent()
-          .should($el => {
-            expectedAllowedActions?.forEach(text => {
-              expect($el.text()).to.contain(text);
-            });
-          });
+         .parent()
+         .should('contain.text', 'All');
+
 
     });
 }

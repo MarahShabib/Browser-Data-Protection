@@ -27,6 +27,10 @@ describe('Browser Data Protection Tests', () => {
 
   it('Enable/Disable policy with rule', () => {
     createRule(exampleRule);
+    checkSuccessMessage(msgs.CREATE_SUCCESS)
+    verifytablecontainNewRule(exampleRule);
+    publishRule()
+    checkSuccessMessage(msgs.PUBLISH_SUCCESS)
     EnableBrowserDataProtectionAndVerify(false);
     checkSuccessMessage(msgs.DisableBrowserDataProtection)
     EnableBrowserDataProtectionAndVerify(true);
@@ -109,15 +113,6 @@ describe('Browser Data Protection Tests', () => {
   });
 
 
-  it('Create Duplicate Rule', () => {
-   createRule(exampleRule);
-   checkSuccessMessage(msgs.Duplicate_Rule)
-  });
-
-   it('Delete Existing Rule', () => {
-   deleteRule(exampleRule.name);
-   checkSuccessMessage(msgs.CREATE_SUCCESS)
-  });
 
   it('Add New Rule with Multiple Users', () => {
    createRule(RULE_MULTIPLE_USER);
@@ -212,6 +207,17 @@ describe('Browser Data Protection Tests', () => {
    EnableRule(RULE_ALLOW_ALL,true,'toggle')
    checkSuccessMessage(msgs.CREATE_SUCCESS)
    CheckEnableRuleStatus(RULE_ALLOW_ALL,true)
+  });
+
+
+    it('Create Duplicate Rule', () => {
+   createRule(exampleRule);
+   checkSuccessMessage(msgs.Duplicate_Rule)
+  });
+
+   it('Delete Existing Rule', () => {
+   deleteRule(exampleRule.name);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
   });
  
  
