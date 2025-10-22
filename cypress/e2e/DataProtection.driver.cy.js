@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '049289'
+  mfa: '792924'
 }
 export const selectors = {
   // login
@@ -90,8 +90,8 @@ export const selectors = {
   confirmationContinueButton: 'button[label="Continue"][data-testid="catobutton-generic"]',
   confirmationDialog: '[role="dialog"]',
   browserExtensionDefaultRulesTableRow: 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"] tbody tr',
-  browserExtensionDefaultRulesTable : 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"]'
-
+  browserExtensionDefaultRulesTable : 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"]',
+  enableRuleButton: '[data-testid="actionsmenulist-menu-action-4"]'
 
 };
 
@@ -319,6 +319,8 @@ const NEW_RULE_VALUES_3 = {
   overlays: 'true'
  
 };
+
+
 
 function loginAndNavigateToBrowserDataProtection() {
 
@@ -726,6 +728,120 @@ function verifytablecontainNewRule(rule = {}) {
 }
 
 
+function EnableRule(rule = {} , enable , source ) {
+  const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
+
+  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
+    const rowsArray = [...$rows];
+    
+    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
+
+    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
+
+    const rowIndex = rowsArray.indexOf(matchingRow);
+
+    cy.wrap(matchingRow).within(() => {
+        Assertions.elementContainsText('*', name);
+        if(source == 'menu')
+        UIActions.clickOnElement(selectors.menuButton);
+      if(source == 'toggle')
+        UIActions.getElement('[aria-label="Edit"]').first().click({force: true});
+
+
+    });
+
+      if(source == 'menu'){
+      cy.get(selectors.enableRuleButton)
+      .then(($el) => {
+      const text = $el.text().trim();
+
+    if (text.includes('Disable') && !enable ) {
+         UIActions.clickOnElement(selectors.enableRuleButton);
+            
+    } 
+    if (text.includes('Enable') && enable ) {
+         UIActions.clickOnElement(selectors.enableRuleButton);
+    
+    } 
+  if (text.includes('Disable') && enable ) {
+         cy.log('Rule is already Enabled')
+            
+    } 
+    if (text.includes('Enable') && !enable ) {
+         cy.log('Rule is already Disabled')
+    
+    } 
+
+  });
+}
+      
+  });
+
+    if(source == 'toggle'){
+
+        cy.get(selectors.enabledToggle)
+       .should('exist')
+       .then(($checkbox) => {
+             const isChecked = $checkbox.prop('checked');
+                cy.log('Checkbox is checked:', isChecked);
+      if (isChecked && !enable) {
+       UIActions.unCheck(selectors.enabledToggle)
+      } 
+      if (!isChecked && enable) {
+       UIActions.check(selectors.enabledToggle)
+      } 
+      if (isChecked && enable) {
+      cy.log('Rule is already Enabled')
+      } 
+      if (!isChecked && !enable) {
+      cy.log('Rule is already Disabled')
+      } 
+
+  });
+
+     UIActions.getElement(selectors.saveButton).should('be.visible').click({force: true});
+     cy.wait(3000)
+      
+      }
+
+
+}
+
+function CheckEnableRuleStatus(rule = {} , enable) {
+  const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
+   cy.wait(3000)
+  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
+    const rowsArray = [...$rows];
+    
+    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
+
+    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
+
+    const rowIndex = rowsArray.indexOf(matchingRow);
+
+    cy.wrap(matchingRow).within(() => {
+       Assertions.elementContainsText('*', name);
+        UIActions.clickOnElement(selectors.menuButton);
+         cy.wait(3000)
+       
+    });
+          if(!enable){
+            cy.contains(selectors.enableRuleButton, 'Enable')
+          .should('be.visible');
+       }else{
+           cy.contains(selectors.enableRuleButton, 'Disable')
+          .should('be.visible');      
+         }
+
+
+  
+  });
+
+  
+
+}
+
+
 
 
 function EditRule(rule = {} , newRule) {
@@ -1118,5 +1234,7 @@ module.exports = {
   NEW_RULE_VALUES,
   NEW_RULE_VALUES_2,
   NEW_RULE_VALUES_3,
+  EnableRule,
+  CheckEnableRuleStatus,
   msgs
 }
