@@ -7,14 +7,14 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '250513'
+  mfa: '538765'
 }
 export const selectors = {
   // login
     username: '#username',
     password: '#password',
     submit: '.btn-submit',
-  mfa: '#mfaCode',
+    mfa: '#mfaCode',
   // UI (main page)
     pageTitle: 'p.MuiV5-Typography-body1',
     breadcrumbLink: 'a[href="#/account/186361/browserDataProtection"]',
@@ -27,6 +27,7 @@ export const selectors = {
     exportButton: 'button[data-testid="catobutton-export"]',
     newButton: 'button[data-testid="catobutton-new"]',
     table: 'table[data-testid="awesometable-table-browser.protection.policy"]',
+    scrollContainerSelector: '.Cato-table-container',
     tableRow: 'table[data-testid="awesometable-table-browser.protection.policy"] tbody tr',
   tableHeaders: ['#', 'Name', 'Description', 'Users/Groups', 'Action'],
     editButton:'button[aria-label="Edit"]',
@@ -133,7 +134,7 @@ const exampleRule = {
 };
 
 const RULE_ALLOW_ONE_ACTION = {
-  name: 'Rule-OneAllow',
+  name: 'RuleOneAllow',
   position: 'Last',
   description: 'Created by automation',
   userGroupType: 'User Group',
@@ -301,13 +302,13 @@ const NEW_RULE_VALUES = {
 };
 
 const NEW_RULE_VALUES_2 = {
-  name: 'Rule-Allow-All',
+  name: 'NewRule2',
   userGroupType: 'User Group',
   userGroupName: ['GROUP1','GROUP2'],
 };
 
 const NEW_RULE_VALUES_3 = {
-    name: 'Rule-Allow-All',
+    name: 'NewRule3',
     activities: {
     Copy: 'Blocked',
     Paste: 'Blocked',
@@ -320,6 +321,180 @@ const NEW_RULE_VALUES_3 = {
  
 };
 
+const RULE_Before= {
+  name: 'Rule-Before',
+  position: 'Before Rule',
+  description: 'Created by automation',
+  selectedRule : 'rule1',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Blocked',
+    Print: 'Blocked',
+    Type: 'Blocked',
+    Upload: 'Blocked',
+    Download: 'Blocked'
+  }
+};
+
+const RULE_After= {
+  name: 'Rule-After',
+  position: 'After Rule',
+  description: 'Created by automation',
+  selectedRule : 'rule2',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Blocked',
+    Paste: 'Blocked',
+    Print: 'Blocked',
+    Type: 'Blocked',
+    Upload: 'Allowed',
+    Download: 'Blocked'
+  }
+};
+
+const RULE1 = {
+  name: 'Rule1',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE2 = {
+  name: 'NewRule2',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+const RULE3 = {
+  name: 'NewRule3',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+const RULE4 = {
+  name: 'NewRule4',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+const RULE5 = {
+  name: 'NewRule5',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE6 = {
+  name: 'NewRule6',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE7 = {
+  name: 'NewRule7',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE8 = {
+  name: 'NewRule8',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE9 = {
+  name: 'NewRule9',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
 
 
 function loginAndNavigateToBrowserDataProtection() {
@@ -471,6 +646,7 @@ function verifyNewFormUI() {
       Assertions.elementExists(selectors.saveButton);
       Assertions.elementContainsText(selectors.saveButton, 'Save');
       UIActions.getElement(selectors.saveButton).should('be.disabled');
+      UIActions.clickOnElement(selectors.cancelButton);
   }
 
 function verifyGeneralSection() {
@@ -542,7 +718,7 @@ function verifyActivitySection() {
 
 
 function setValues(rule = {}) {
-    const { name, position, description, userGroupType, userGroupName, activities , overlays } = rule;
+    const { name, position, description, userGroupType, userGroupName, activities , overlays ,selectedRule } = rule;
    
    if(name){
       UIActions.typeInElement(selectors.nameInput, name, true);
@@ -562,9 +738,20 @@ function setValues(rule = {}) {
      }
       if (position == 'Before Rule') {
       UIActions.clickOnElement(selectors.beforeRule);
+        UIActions.clickOnElement(selectors.userMenu);
+        UIActions.getElement(selectors.userSelect)
+          .should('be.visible')
+          .contains(selectedRule)
+          .click();
+
      }
       if (position == 'After Rule') {
       UIActions.clickOnElement(selectors.afterRule);
+        UIActions.clickOnElement(selectors.userMenu);
+        UIActions.getElement(selectors.userSelect)
+          .should('be.visible')
+          .contains(selectedRule)
+          .click();
      }
   }
 
@@ -588,75 +775,15 @@ function setValues(rule = {}) {
 
 
 
-// function verifytablecontainNewRule(rule = {}) {
-//   const { name, position, description, userGroupType, userGroupName, activities } = rule;
-
-//   const row = position === 'First'
-//     ? UIActions.getElement(selectors.tableRow).first()
-//     : UIActions.getElement(selectors.tableRow).last();
-
-//   row.within(() => {
-//     Assertions.elementContainsText('*', name);
-
-//     if (description) {
-//       Assertions.elementContainsText('*', description);
-//     }
-
-//     if (userGroupName) {
-//       Assertions.elementContainsText('*', userGroupName);
-//     }
-
-//     if (activities) {
-//       const allowedActions = Object.entries(activities)
-//         .filter(([, value]) => value === 'Allowed')
-//         .map(([key]) => key);
-
-//       const blockedActions = Object.entries(activities)
-//         .filter(([, value]) => value === 'Blocked')
-//         .map(([key]) => key);
-
-//       if (allowedActions.length) {
-//         Assertions.elementExists(selectors.allowIcon);
-//         UIActions.getElement(selectors.allowIcon)
-//           .parent()
-//           .should($el => {
-//             allowedActions.forEach(action => {
-//               expect($el.text()).to.contain(action);
-//             });
-//           });
-//       }
-
-//       if (blockedActions.length) {
-//         Assertions.elementExists(selectors.blockIcon);
-//         UIActions.getElement(selectors.blockIcon)
-//           .parent()
-//           .should($el => {
-//             blockedActions.forEach(action => {
-//               expect($el.text()).to.contain(action);
-//             });
-//           });
-//       }
-//     }
-
-//     Assertions.elementExists(selectors.menuButton);
-//   });
-// }
-
-
 
 function verifytablecontainNewRule(rule = {}) {
-  const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
+  const { name, position, description, userGroupType, userGroupName, activities ,overlays ,selectedRule } = rule;
 
-  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
-    const rowsArray = [...$rows];
-    
-    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
 
-    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
+   getMatchingRow(name).then($row => {
+  expect($row, `Row containing rule name "${name}" should exist`).to.exist;
 
-    const rowIndex = rowsArray.indexOf(matchingRow);
-
-    cy.wrap(matchingRow).within(() => {
+  cy.wrap($row).within(() => {
       Assertions.elementContainsText('*', name);
 
       if (description) {
@@ -719,112 +846,119 @@ function verifytablecontainNewRule(rule = {}) {
 
 
       Assertions.elementExists(selectors.menuButton);
-    });
   });
+});
+
 
   const effectivePosition = position || 'Last';
-  verifyRulePosition(position,name);
+  verifyRulePosition(position,name ,selectedRule);
 
 }
+
+
+
+function getMatchingRow(name) {
+  const search = () => {
+    return cy.get(selectors.tableRow).filter(':visible').then($rows => {
+      const rowsArray = [...$rows];
+      const matchingRow = rowsArray.find(row => row.innerText.includes(name));
+
+      if (matchingRow) {
+        return cy.wrap(matchingRow);
+      }
+
+       const refRow = rowsArray[rowsArray.length - 1]; // last visible row
+         return cy.wrap(refRow)
+          .scrollIntoView()
+          .parents('.Cato-table-container')       // ✅ ensures only one element
+          .scrollTo('bottom', { ensureScrollable: false })
+          .then(() => search());
+    });
+  };
+
+  return search();
+}
+
 
 
 function EnableRule(rule = {} , enable , source ) {
   const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
 
-  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
-    const rowsArray = [...$rows];
-    
-    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
+  
+  getMatchingRow(name).then($row => {
+    expect($row, `Row containing rule name "${name}" should exist`).to.exist;
 
-    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
-
-    const rowIndex = rowsArray.indexOf(matchingRow);
-
-    cy.wrap(matchingRow).within(() => {
-        Assertions.elementContainsText('*', name);
-        if(source == 'menu')
+    cy.wrap($row).within(() => {
+      Assertions.elementContainsText('*', name);
+      if (source == 'menu')
         UIActions.clickOnElement(selectors.menuButton);
-      if(source == 'toggle')
-        UIActions.getElement('[aria-label="Edit"]').first().click({force: true});
-
-
+      if (source == 'toggle')
+        UIActions.getElement('[aria-label="Edit"]').first().click({ force: true });
     });
+  }); 
 
-      if(source == 'menu'){
-      cy.get(selectors.enableRuleButton)
+   if (source == 'menu') {
+    cy.get(selectors.enableRuleButton)
       .then(($el) => {
-      const text = $el.text().trim();
+        const text = $el.text().trim();
 
-    if (text.includes('Disable') && !enable ) {
-         UIActions.clickOnElement(selectors.enableRuleButton);
-            
-    } 
-    if (text.includes('Enable') && enable ) {
-         UIActions.clickOnElement(selectors.enableRuleButton);
-    
-    } 
-  if (text.includes('Disable') && enable ) {
-         cy.log('Rule is already Enabled')
-            
-    } 
-    if (text.includes('Enable') && !enable ) {
-         cy.log('Rule is already Disabled')
-    
-    } 
+        if (text.includes('Disable') && !enable) {
+          UIActions.clickOnElement(selectors.enableRuleButton);
+        }
+        if (text.includes('Enable') && enable) {
+          UIActions.clickOnElement(selectors.enableRuleButton);
+        }
+        if (text.includes('Disable') && enable) {
+          cy.log('Rule is already Enabled');
+        }
+        if (text.includes('Enable') && !enable) {
+          cy.log('Rule is already Disabled');
+        }
+      });
+  }
 
-  });
+  if (source == 'toggle') {
+    cy.get(selectors.enabledToggle)
+      .should('exist')
+      .then(($checkbox) => {
+        const isChecked = $checkbox.prop('checked');
+        cy.log('Checkbox is checked:', isChecked);
+
+        if (isChecked && !enable) {
+          UIActions.unCheck(selectors.enabledToggle);
+        }
+        if (!isChecked && enable) {
+          UIActions.check(selectors.enabledToggle);
+        }
+        if (isChecked && enable) {
+          cy.log('Rule is already Enabled');
+        }
+        if (!isChecked && !enable) {
+          cy.log('Rule is already Disabled');
+        }
+      });
+
+    UIActions.getElement(selectors.saveButton).should('be.visible').click({ force: true });
+    cy.wait(3000);
+  }
 }
-      
-  });
 
-    if(source == 'toggle'){
-
-        cy.get(selectors.enabledToggle)
-       .should('exist')
-       .then(($checkbox) => {
-             const isChecked = $checkbox.prop('checked');
-                cy.log('Checkbox is checked:', isChecked);
-      if (isChecked && !enable) {
-       UIActions.unCheck(selectors.enabledToggle)
-      } 
-      if (!isChecked && enable) {
-       UIActions.check(selectors.enabledToggle)
-      } 
-      if (isChecked && enable) {
-      cy.log('Rule is already Enabled')
-      } 
-      if (!isChecked && !enable) {
-      cy.log('Rule is already Disabled')
-      } 
-
-  });
-
-     UIActions.getElement(selectors.saveButton).should('be.visible').click({force: true});
-     cy.wait(3000)
-      
-      }
-
-
-}
 
 function CheckEnableRuleStatus(rule = {} , enable) {
   const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
    cy.wait(3000)
-  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
-    const rowsArray = [...$rows];
-    
-    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
+     
+  getMatchingRow(name).then($row => {
+  expect($row, `Row containing rule name "${name}" should exist`).to.exist;
 
-    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
-
-    const rowIndex = rowsArray.indexOf(matchingRow);
-
-    cy.wrap(matchingRow).within(() => {
+  cy.wrap($row).within(() => {
        Assertions.elementContainsText('*', name);
         UIActions.clickOnElement(selectors.menuButton);
          cy.wait(3000)
        
     });
+      });
+
           if(!enable){
             cy.contains(selectors.enableRuleButton, 'Enable')
           .should('be.visible');
@@ -832,49 +966,34 @@ function CheckEnableRuleStatus(rule = {} , enable) {
            cy.contains(selectors.enableRuleButton, 'Disable')
           .should('be.visible');      
          }
-
-
-  
-  });
-
-  
-
 }
 
 
 
 
 function EditRule(rule = {} , newRule) {
-  const { name, position, description, userGroupType, userGroupName, activities ,overlays } = rule;
+  const { name, position, description, userGroupType, userGroupName, activities ,overlays , selectedRule } = rule;
 
-  UIActions.getElement(selectors.tableRow).filter(':visible').then($rows => {
-    const rowsArray = [...$rows];
-    
-    const matchingRow = rowsArray.find(row => row.innerText.includes(name));
+    getMatchingRow(name).then($row => {
+    expect($row, `Row containing rule name "${name}" should exist`).to.exist;
 
-    expect(matchingRow, `Row containing rule name "${name}" should exist`).to.exist;
-
-    const rowIndex = rowsArray.indexOf(matchingRow);
-
-    cy.wrap(matchingRow).within(() => {
+    cy.wrap($row).within(() => {
       Assertions.elementContainsText('*', name);
       UIActions.getElement('[aria-label="Edit"]').first().click({force: true});
+    });
     });
       
     setValues(newRule)
     UIActions.getElement(selectors.saveButton).should('be.visible').click();
      cy.wait(3000);
-          
-
-  });
-   
+           
 }
 
 
 
 
 
-function verifyRulePosition(position, name) {
+function verifyRulePosition(position, name,selectedRule) {
   if (position == 'Last') {
    UIActions.getElement(selectors.tableRow).last()
       .find('td')
@@ -886,8 +1005,63 @@ function verifyRulePosition(position, name) {
       .find('td')
       .eq(2)
       .should('contain.text', name);
+  }else if (position == 'Before Rule') {
+   
+    let beforeIdx = -1;
+   let rule1Idx = -1;
+   cy.get(selectors.tableRow).each(($row, index) => {
+   const text = $row.text().replace(/\s+/g, ' ').trim();
+   cy.log(`${index} → ${text}`);
+
+     if (text.includes(name) && beforeIdx === -1) {
+    beforeIdx = index;
+    }
+
+      if (text.includes(selectedRule) && rule1Idx === -1) {
+    rule1Idx = index;
+        }
+    })
+   .then(() => {
+  cy.log(`beforeIdx: ${beforeIdx}, rule1Idx: ${rule1Idx}`);
+
+  expect(beforeIdx, '${selectedRule} row index').to.be.at.least(0);
+  expect(rule1Idx, '${name}row index').to.be.at.least(0);
+  expect(beforeIdx, '${selectedRule} should appear before ${name}')
+    .to.be.lessThan(rule1Idx);
+});
+
+  }else if (position == 'After Rule') {
+   
+    let afterIdx = -1;
+   let rule1Idx = -1;
+   cy.get(selectors.tableRow).each(($row, index) => {
+   const text = $row.text().replace(/\s+/g, ' ').trim();
+   cy.log(`${index} → ${text}`);
+
+     if (text.includes(selectedRule) && afterIdx === -1) {
+    afterIdx = index;
+    }
+
+      if (text.includes(name) && rule1Idx === -1) {
+    rule1Idx = index;
+        }
+    })
+   .then(() => {
+  cy.log(`afterIdx: ${afterIdx}, rule1Idx: ${rule1Idx}`);
+
+  expect(afterIdx, '${selectedRule} row index').to.be.at.least(0);
+  expect(rule1Idx, '${name} row index').to.be.at.least(0);
+  expect(rule1Idx, '${selectedRule} should appear after ${name}')
+    .to.be.greaterThan(afterIdx);
+});
+
   }
+
+
+
 }
+
+
 
 
 
@@ -900,88 +1074,24 @@ function publishRule() {
 
 
 
-// function selectUserGroupType(type,name) {
-//   UIActions.clickOnElement(selectors.usergroupSection);
-
-//      UIActions.clickOnElement(selectors.userMenu);
-
-//  UIActions.getElement(selectors.userlist)
-//     .contains(type)
-//     .should('be.visible')
-//     .click();
-
-//     UIActions.getElement(selectors.userSearch)
-//   .should('be.visible')
-//   .clear()
-//   .type(name, { delay: 100 });
-
-
-//    UIActions.getElement(selectors.userSelect)
-//   .should('be.visible')
-//   .contains(name)
-//   .click();
-
-
-//     UIActions.getElement(selectors.usersGroupsTable).within(() => {
-//       UIActions.getElement(selectors.tbodyRow)
-//           .first()
-//           .within(() => {
-            
-//             UIActions.getElement(selectors.roleCell).eq(1).should('contain', name); 
-//             UIActions.getElement(selectors.roleCell).eq(2).should('contain', type); 
-//           });
-//         });
-
-    
-
-// }
-
-
-// function selectUserGroupType(type, names) {
-//   UIActions.clickOnElement(selectors.usergroupSection);
-//   UIActions.clickOnElement(selectors.userMenu);
-
-//   UIActions.getElement(selectors.userlist)
-//     .contains(type)
-//     .should('be.visible')
-//     .click();
-
-//   names.forEach(name => {
-//     UIActions.getElement(selectors.userSearch)
-//       .should('be.visible')
-//       .clear()
-//       .type(name, { delay: 100 });
-
-//     UIActions.getElement(selectors.userSelect)
-//       .should('be.visible')
-//       .contains(name)
-//       .click();
-//   });
-
- 
-//   UIActions.getElement(selectors.usersGroupsTable).within(() => {
-//     names.forEach(name => {
-//       UIActions.getElement(selectors.tbodyRow)
-//         .contains(name)
-//     });
-//   });
-
-
-
-
-// }
-
 
 function selectUserGroupType(type, names) {
+ 
   UIActions.clickOnElement(selectors.usergroupSection);
+
+  UIActions.getElement(selectors.usergroupSection).within(() => {
   UIActions.clickOnElement(selectors.userMenu);
+    });
 
-  UIActions.getElement(selectors.userlist)
-    .contains(type)
-    .should('be.visible')
-    .click();
+  // UIActions.getElement(selectors.userSelect)
+  //   .contains(type)
+  //   .should('be.visible')
+  //   .click();
+  UIActions.getElement(selectors.userSelect)
+  .find('li')
+  .contains(type)   
+  .click({ force: true });
 
-  // Add only users that are not already in the table
   names.forEach(name => {
     UIActions.getElement(selectors.usersGroupsTable).then($table => {
       const nameAlreadyExists = $table.find(selectors.tbodyRow).toArray().some(row =>
@@ -1002,28 +1112,7 @@ function selectUserGroupType(type, names) {
     });
   });
 
-  // Remove users from the table if they are not in the `names` list
-  // UIActions.getElement(selectors.usersGroupsTable)
-  // .find(selectors.tbodyRow)
-  // .each($row => {
-  //   const row = cy.wrap($row);
-
-  //   row.find('td').first().invoke('text').then(cellText => {
-  //     const trimmedText = cellText.trim();
-
-  //     const matchedName = names.find(name => name === trimmedText);
-
-  //     if (matchedName) {
-  //       cy.log(`✅ Keeping: ${matchedName}`);
-  //     } else {
-  //       cy.log(`❌ Deleting row: ${trimmedText}`);
-  //       Assertions.elementExists(selectors.deleteButton);
-  //       row.find(selectors.deleteButton).click();
-  //     }
-  //   });
-  // });
-
-  // Final check to ensure expected names are present
+ 
   UIActions.getElement(selectors.usersGroupsTable).within(() => {
     names.forEach(name => {
       UIActions.getElement(selectors.tbodyRow)
@@ -1031,6 +1120,10 @@ function selectUserGroupType(type, names) {
         .should('exist');
     });
   });
+
+
+
+
 }
 
 
@@ -1099,7 +1192,7 @@ function checkSuccessMessage(expectedText = msgs.CREATE_SUCCESS) {
     .invoke('text')
     .should('include', expectedText)
 
-    // cy.get(selectors.catoSnackbarCloseButton).click();
+   
 
   cy.get('body').then($body => {
   if ($body.find('button:has(svg[data-icon-name="Close"])').length > 0) {
@@ -1107,7 +1200,10 @@ function checkSuccessMessage(expectedText = msgs.CREATE_SUCCESS) {
   }
 });
 
+}
 
+function clickCancel() {
+     UIActions.clickOnElement(selectors.cancelButton);
 
 }
 
@@ -1155,26 +1251,7 @@ function EnableBrowserDataProtectionAndVerify(shouldEnable) {
 }
 
 
-// function verifyBrowserPolicyDefaultRoleAllActionsAllowed() {
-//   const expectedAllowedActions = ['Download', 'Copy', 'Paste', 'Print', 'Type', 'Upload'];
 
-
-//   cy.get('table[data-testid="awesometable-table-browser.extension.policy.defaultRules"]').should('be.visible');
-
-//   const rowIndex = 1; 
-
-//   cy.get(selectors.browserExtensionDefaultRulesTableRow)
-//     .eq(rowIndex)
-//     .should('exist') 
-//     .within(() => {
-//       cy.get(selectors.allowIcon, { timeout: 8000 }).should('exist');
-
-//       expectedAllowedActions.forEach(action => {
-//         cy.contains(action).should('exist');
-//       });
-
-//     });
-// }
 
 
 function verifyBrowserPolicyDefaultRoleAllActionsAllowed() {
@@ -1223,6 +1300,7 @@ module.exports = {
   deleteRule,
   EnableBrowserDataProtectionAndVerify,
   verifyBrowserPolicyDefaultRoleAllActionsAllowed,
+  clickCancel,
   RULE_ALLOW_ONE_ACTION,
   RULE_ALLOW_TWO_ACTION,
   RULE_ALLOW_THREE_ACTION,
@@ -1240,5 +1318,8 @@ module.exports = {
   NEW_RULE_VALUES_3,
   EnableRule,
   CheckEnableRuleStatus,
+  RULE_Before,
+  RULE_After,
+  RULE1,RULE2,RULE3,RULE4,RULE5,RULE6,RULE7,RULE8,RULE9,
   msgs
 }
