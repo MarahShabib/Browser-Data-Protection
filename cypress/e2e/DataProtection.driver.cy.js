@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '336221'
+  mfa: '448887'
 }
 export const selectors = {
   // login
@@ -93,7 +93,9 @@ export const selectors = {
   browserExtensionDefaultRulesTableRow: 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"] tbody tr',
   browserExtensionDefaultRulesTable : 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"]',
   enableRuleButton: '[data-testid="actionsmenulist-menu-action-4"]',
-  moveRuleButton: '[data-testid="actionsmenulist-menu-action-3"]'
+  moveRuleButton: '[data-testid="actionsmenulist-menu-action-3"]',
+  zoomButton: 'svg[data-icon-name="PlusSearch"]',
+  waterMarkImage: 'img[src="/cma/static/assets/watermark-f282db49.png"]'
 
 };
 
@@ -483,6 +485,22 @@ const RULE8 = {
 
 const RULE9 = {
   name: 'NewRule9',
+  position: 'First',
+  description: 'Created by automation',
+  userGroupType: 'User Group',
+  userGroupName: ['GROUP1'],
+  activities: {
+    Copy: 'Allowed',
+    Paste: 'Allowed',
+    Print: 'Allowed',
+    Type: 'Allowed',
+    Upload: 'Allowed',
+    Download: 'Allowed'
+  }
+};
+
+const RULE10 = {
+  name: 'NewRule10',
   position: 'First',
   description: 'Created by automation',
   userGroupType: 'User Group',
@@ -1013,6 +1031,21 @@ function moveRule(name ,position,selectedRule ) {
     UIActions.getElement(selectors.saveButton).should('be.visible').click({ force: true });
     cy.wait(3000);
 }
+
+
+function zoomWaterMark(name) {
+
+  getMatchingRow(name).then($row => {
+    expect($row, `Row containing rule name "${name}" should exist`).to.exist;
+
+    cy.wrap($row).within(() => {
+      Assertions.elementContainsText('*', name);
+      UIActions.clickOnElement(selectors.zoomButton)
+    });
+  }); 
+  Assertions.elementExists(selectors.waterMarkImage);
+
+}
   
 
 
@@ -1368,8 +1401,9 @@ module.exports = {
   CheckEnableRuleStatus,
   RULE_Before,
   RULE_After,
-  RULE1,RULE2,RULE3,RULE4,RULE5,RULE6,RULE7,RULE8,RULE9,
+  RULE1,RULE2,RULE3,RULE4,RULE5,RULE6,RULE7,RULE8,RULE9,RULE10,
   moveRule,
   verifyRulePosition,
+  zoomWaterMark,
   msgs
 }

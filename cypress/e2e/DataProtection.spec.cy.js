@@ -1,4 +1,4 @@
-const { loginAndNavigateToBrowserDataProtection ,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL,verifytablecontainNewRule ,clickCancel,RULE_BLOCK_ONE_ACTION,RULE_BLOCK_TWO_ACTION,RULE_BLOCK_THREE_ACTION,RULE_BLOCK_ALL ,RULE_MULTIPLE_USER ,RULE_WITH_WATERMARK ,EditRule ,NEW_RULE_VALUES ,NEW_RULE_VALUES_2,NEW_RULE_VALUES_3 ,EnableRule ,CheckEnableRuleStatus ,RULE_Before ,RULE_After ,  RULE1,RULE2,RULE3,RULE4,RULE5,RULE6,RULE7,RULE8,RULE9 ,RULE10,moveRule ,verifyRulePosition} = require('./DataProtection.driver.cy')
+const { loginAndNavigateToBrowserDataProtection ,zoomWaterMark,  verifymainPageUI , verifyNewFormUI,createRule,exampleRule , checkSuccessMessage, msgs ,publishRule ,deleteRule ,EnableBrowserDataProtectionAndVerify ,verifyBrowserPolicyDefaultRoleAllActionsAllowed ,RULE_ALLOW_ONE_ACTION,RULE_ALLOW_TWO_ACTION,RULE_ALLOW_THREE_ACTION,RULE_ALLOW_ALL,verifytablecontainNewRule ,clickCancel,RULE_BLOCK_ONE_ACTION,RULE_BLOCK_TWO_ACTION,RULE_BLOCK_THREE_ACTION,RULE_BLOCK_ALL ,RULE_MULTIPLE_USER ,RULE_WITH_WATERMARK ,EditRule ,NEW_RULE_VALUES ,NEW_RULE_VALUES_2,NEW_RULE_VALUES_3 ,EnableRule ,CheckEnableRuleStatus ,RULE_Before ,RULE_After ,  RULE1,RULE2,RULE3,RULE4,RULE5,RULE6,RULE7,RULE8,RULE9 ,RULE10,moveRule ,verifyRulePosition} = require('./DataProtection.driver.cy')
 
 
 
@@ -260,6 +260,17 @@ describe('Browser Data Protection Tests', () => {
     checkSuccessMessage(msgs.CREATE_SUCCESS)
     verifyRulePosition('Last',RULE10.name); 
   });
+
+   it('Click on zoom button for watermark', () => {
+   createRule(RULE_WITH_WATERMARK);
+   checkSuccessMessage(msgs.CREATE_SUCCESS)
+   verifytablecontainNewRule(RULE_WITH_WATERMARK);
+   publishRule()
+   checkSuccessMessage(msgs.PUBLISH_SUCCESS)
+   zoomWaterMark(RULE_WITH_WATERMARK.name)
+
+  });
+  
 
 
  
