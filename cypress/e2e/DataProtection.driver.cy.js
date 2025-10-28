@@ -7,7 +7,7 @@ const authUrl = 'https://marah-testing.auth.test.catonet.works'
 const credentials = {
   username: 'marah.shabib@exalt.ps',
   password: '123456Shm@3',
-  mfa: '538765'
+  mfa: '336221'
 }
 export const selectors = {
   // login
@@ -92,7 +92,8 @@ export const selectors = {
   confirmationDialog: '[role="dialog"]',
   browserExtensionDefaultRulesTableRow: 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"] tbody tr',
   browserExtensionDefaultRulesTable : 'table[data-testid="awesometable-table-browser.extension.policy.defaultRules"]',
-  enableRuleButton: '[data-testid="actionsmenulist-menu-action-4"]'
+  enableRuleButton: '[data-testid="actionsmenulist-menu-action-4"]',
+  moveRuleButton: '[data-testid="actionsmenulist-menu-action-3"]'
 
 };
 
@@ -969,6 +970,53 @@ function CheckEnableRuleStatus(rule = {} , enable) {
 }
 
 
+function moveRule(name ,position,selectedRule ) {
+
+  getMatchingRow(name).then($row => {
+    expect($row, `Row containing rule name "${name}" should exist`).to.exist;
+
+    cy.wrap($row).within(() => {
+      Assertions.elementContainsText('*', name);
+        UIActions.clickOnElement(selectors.menuButton);
+    });
+  }); 
+
+    UIActions.clickOnElement(selectors.moveRuleButton);
+     
+    UIActions.clickOnElement(selectors.positionSelectValue);
+    
+      if (position == 'Last') {
+      UIActions.clickOnElement(selectors.lastPosition);
+     }
+      if (position == 'First') {
+      UIActions.clickOnElement(selectors.firstPosition);
+     }
+      if (position == 'Before Rule') {
+      UIActions.clickOnElement(selectors.beforeRule);
+        UIActions.clickOnElement(selectors.userMenu);
+        UIActions.getElement(selectors.userSelect)
+          .should('be.visible')
+          .contains(selectedRule)
+          .click();
+
+     }
+      if (position == 'After Rule') {
+      UIActions.clickOnElement(selectors.afterRule);
+        UIActions.clickOnElement(selectors.userMenu);
+        UIActions.getElement(selectors.userSelect)
+          .should('be.visible')
+          .contains(selectedRule)
+          .click();
+     }    
+    
+
+    UIActions.getElement(selectors.saveButton).should('be.visible').click({ force: true });
+    cy.wait(3000);
+}
+  
+
+
+
 
 
 function EditRule(rule = {} , newRule) {
@@ -1321,5 +1369,7 @@ module.exports = {
   RULE_Before,
   RULE_After,
   RULE1,RULE2,RULE3,RULE4,RULE5,RULE6,RULE7,RULE8,RULE9,
+  moveRule,
+  verifyRulePosition,
   msgs
 }
