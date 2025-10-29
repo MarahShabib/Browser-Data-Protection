@@ -886,10 +886,10 @@ function getMatchingRow(name) {
         return cy.wrap(matchingRow);
       }
 
-       const refRow = rowsArray[rowsArray.length - 1]; // last visible row
+       const refRow = rowsArray[rowsArray.length - 1];
          return cy.wrap(refRow)
           .scrollIntoView()
-          .parents('.Cato-table-container')       // ✅ ensures only one element
+          .parents('.Cato-table-container')      
           .scrollTo('bottom', { ensureScrollable: false })
           .then(() => search());
     });
